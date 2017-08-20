@@ -46,7 +46,7 @@ TINY_LOR
 static void _channelEvent(ChannelHandler *thiz, Channel *channel, void *event);
 
 TINY_LOR
-static int64_t _channelNextTimeout(Channel *channel, void *ctx);
+static int64_t _channelGetNextTimeout(Channel *channel, void *ctx);
 
 TINY_LOR
 ChannelHandler * MdnsHandler(void)
@@ -99,7 +99,7 @@ static TinyRet MdnsHandler_Construct(ChannelHandler *thiz)
     thiz->channelRead = _channelRead;
     thiz->channelWrite = NULL;
     thiz->channelEvent = _channelEvent;
-    thiz->nextTimeout = _channelNextTimeout;
+    thiz->getNextTimeout = _channelGetNextTimeout;
     thiz->data = MdnsHandlerContext_New();
     if (thiz->data == NULL)
     {
@@ -370,7 +370,7 @@ static void _channelEvent(ChannelHandler *thiz, Channel *channel, void *event)
 }
 
 TINY_LOR
-static int64_t _channelNextTimeout(Channel *channel, void *ctx)
+static int64_t _channelGetNextTimeout(Channel *channel, void *ctx)
 {
     return (1000 * 1000 * ((MdnsHandlerContext *) (((ChannelHandler *)ctx)->data))->ttl);
 }
