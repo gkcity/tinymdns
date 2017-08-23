@@ -8,10 +8,10 @@ SET(PROJ_NAME "TinyMDNS")
 # include dir
 #
 #---------------------------------------------------------------------------------------
-SET(SOURCE_ROOT ${PROJECT_SOURCE_DIR}/source)
+SET(SOURCE_ROOT ${PROJECT_SOURCE_DIR}/source/src)
 SET(TINY_ROOT ${PROJECT_SOURCE_DIR}/../tiny)
 
-INCLUDE_DIRECTORIES(${SOURCE_ROOT})
+INCLUDE_DIRECTORIES(${SOURCE_ROOT}/mdns)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyBase)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyPortable)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyContainer)
@@ -45,4 +45,48 @@ MESSAGE(STATUS "library output: ${LIBRARY_OUTPUT_PATH}")
 # Source
 #
 #-------------------------------------------------------------------------------------
-ADD_SUBDIRECTORY(source)
+
+SET(Mdns_Header
+        ${SOURCE_ROOT}/mdns/MdnsConstant.h
+        ${SOURCE_ROOT}/mdns/ServiceInfo.h
+        ${SOURCE_ROOT}/mdns/MdnsHandler.h
+        ${SOURCE_ROOT}/mdns/MdnsHandlerContext.h
+        ${SOURCE_ROOT}/mdns/ServiceObserver.h
+        ${SOURCE_ROOT}/mdns/ServiceListener.h
+        ${SOURCE_ROOT}/mdns/codec/DnsMessageCodec.h
+        ${SOURCE_ROOT}/mdns/message/DnsTypedef.h
+        ${SOURCE_ROOT}/mdns/message/DnsName.h
+        ${SOURCE_ROOT}/mdns/message/DnsQuestion.h
+        ${SOURCE_ROOT}/mdns/message/DnsRecord.h
+        ${SOURCE_ROOT}/mdns/message/DnsMessage.h
+        )
+
+SET(Mdns_Source
+        ${SOURCE_ROOT}/mdns/ServiceInfo.c
+        ${SOURCE_ROOT}/mdns/MdnsHandler.c
+        ${SOURCE_ROOT}/mdns/MdnsHandlerContext.c
+        ${SOURCE_ROOT}/mdns/ServiceObserver.c
+        ${SOURCE_ROOT}/mdns/codec/DnsMessageCodec.c
+        ${SOURCE_ROOT}/mdns/message/DnsTypedef.c
+        ${SOURCE_ROOT}/mdns/message/DnsName.c
+        ${SOURCE_ROOT}/mdns/message/DnsQuestion.c
+        ${SOURCE_ROOT}/mdns/message/DnsRecord.c
+        ${SOURCE_ROOT}/mdns/message/DnsMessage.c
+        )
+
+SET(SRC
+        ${Mdns_Header}
+        ${Mdns_Source}
+        )
+
+#----------------------------------------------------------------------------
+# static library
+#----------------------------------------------------------------------------
+ADD_LIBRARY(tinymdns_static STATIC ${SRC})
+SET_TARGET_PROPERTIES(tinymdns_static PROPERTIES OUTPUT_NAME "tinymdns_static")
+SET_TARGET_PROPERTIES(tinymdns_static PROPERTIES LINKER_LANGUAGE C)
+
+ADD_LIBRARY(tinymdns SHARED ${SRC})
+SET_TARGET_PROPERTIES(tinymdns PROPERTIES OUTPUT_NAME "tinymdns")
+SET_TARGET_PROPERTIES(tinymdns PROPERTIES LINKER_LANGUAGE C)
+TARGET_LINK_LIBRARIES(tinymdns ${DEPENDENCE_LIB})
