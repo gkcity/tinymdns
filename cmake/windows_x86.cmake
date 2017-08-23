@@ -15,14 +15,13 @@ ADD_DEFINITIONS(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-DUNICODE)
 ADD_DEFINITIONS(-D_UNICODE)
-ADD_DEFINITIONS(-std=c99)
 
 #----------------------------------------------------------------------------
 #
 # Dependence Libraries
 #
 #----------------------------------------------------------------------------
-SET(DEPENDENCE_LIB ws2_32.lib libtiny_static.lib)
+SET(DEPENDENCE_LIB ws2_32.lib tiny.lib)
 
 #----------------------------------------------------------------------------
 #

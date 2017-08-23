@@ -270,7 +270,7 @@ TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, ServiceInfo *info)
 }
 
 /**
- * 离线时，发送3个TTL=0的Answer
+ * Offline Advertisement: send answer that contains TTL(0) 3 times
  *
  * NAME: ._hap._tcp.local
  * TYPE: 12 = PTR
@@ -347,14 +347,14 @@ static void MdnsHandlerContext_AddRecord(DnsMessage *response,
 /**
  *
 
-1. 查询DNSSD服务
+1. Query DNSSD service
 [0]
 Q NAME: ._services._dns-sd._udp.local
 Q TYPE: 12 = PTR
 Q UNICAST: 0
 Q CLASS: 1 (1) = IN
 
-2. 应答
+2. Response
 
 [2]
 NAME: ._services._dns-sd._udp.local
@@ -364,7 +364,7 @@ TTL: 4500 (1194)
 RDLength: 7 (7)
 CNAME or PTR: ._hap._tcp.local
 
-3. 继续查询 ._hap._tcp.local 服务
+3. Continue Query ._hap._tcp.local 服务
 
 [0]
 Q NAME: ._hap._tcp.local
@@ -372,7 +372,7 @@ Q TYPE: 33 = SRV
 Q UNICAST: 0
 Q CLASS: 1 (1) = IN
 
-4. 应答
+4. Response
 [0]
 NAME: .XiaomiFan._hap._tcp.local
 TYPE: 16 = TXT

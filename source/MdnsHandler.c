@@ -14,6 +14,8 @@
 
 #include <tiny_log.h>
 #include <tiny_malloc.h>
+#include <tiny_time.h>
+#include <channel/ChannelTimer.h>
 #include <channel/SocketChannel.h>
 #include <channel/multicast/MulticastChannel.h>
 #include "message/DnsMessage.h"
@@ -46,7 +48,7 @@ TINY_LOR
 static void _channelEvent(ChannelHandler *thiz, Channel *channel, void *event);
 
 TINY_LOR
-static int64_t _channelGetNextTimeout(Channel *channel, void *ctx);
+TinyRet _channelGetNextTimeout(Channel *thiz, ChannelTimer *timer, void *ctx);
 
 TINY_LOR
 ChannelHandler * MdnsHandler(void)
@@ -99,7 +101,7 @@ static TinyRet MdnsHandler_Construct(ChannelHandler *thiz)
     thiz->channelRead = _channelRead;
     thiz->channelWrite = NULL;
     thiz->channelEvent = _channelEvent;
-    thiz->getNextTimeout = _channelGetNextTimeout;
+    thiz->getTimeout = _channelGetNextTimeout;
     thiz->data = MdnsHandlerContext_New();
     if (thiz->data == NULL)
     {
@@ -370,7 +372,18 @@ static void _channelEvent(ChannelHandler *thiz, Channel *channel, void *event)
 }
 
 TINY_LOR
-static int64_t _channelGetNextTimeout(Channel *channel, void *ctx)
+TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx)
 {
-    return (1000 * 1000 * ((MdnsHandlerContext *) (((ChannelHandler *)ctx)->data))->ttl);
+    // return (1000 * 1000 * ((MdnsHandlerContext *) (((ChannelHandler *)ctx)->data))->ttl);
+
+    uint64_t current = tiny_current_microsecond();
+    ChannelHandler *thiz = (ChannelHandler *)ctx;
+    MdnsHandlerContext * context = (MdnsHandlerContext *)(thiz->data);
+    int64_t timeout = context->ttl * 1000000;
+
+    timer->valid = true;
+    timer->type = CHANNEL_TIMER_OTHER;
+    timer->timeout = timeout;
+
+    return TINY_RET_OK;
 }
