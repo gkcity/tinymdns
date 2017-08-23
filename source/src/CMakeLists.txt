@@ -3,4 +3,4 @@
 # tinymdns
 #
 #-------------------------------------------------------------------------------------
-ADD_SUBDIRECTORY(mdns)
+ADD_SUBDIRECTORY(TinyMDNS)
