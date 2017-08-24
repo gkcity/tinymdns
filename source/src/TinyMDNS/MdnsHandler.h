@@ -17,6 +17,7 @@
 
 #include <channel/ChannelHandler.h>
 #include "ServiceInfo.h"
+#include "mdns_api.h"
 
 #ifdef MDNS_DISCOVERY
 #include "ServiceListener.h"
@@ -27,16 +28,20 @@ TINY_BEGIN_DECLS
 
 #define MdnsHandler_Name "MdnsHandler"
 
+MDNS_API
 TINY_LOR
 ChannelHandler * MdnsHandler(void);
 
+MDNS_API
 TINY_LOR
 TinyRet MdnsHandler_Register(ChannelHandler *thiz, ServiceInfo *info);
 
+MDNS_API
 TINY_LOR
 TinyRet MdnsHandler_Unregister(ChannelHandler *thiz, ServiceInfo *info);
 
 #ifdef MDNS_DISCOVERY
+MDNS_API
 TINY_LOR
 TinyRet MdnsHandler_AddListener(ChannelHandler *thiz, const char *type, ServiceListener listener, void *ctx);
 #endif

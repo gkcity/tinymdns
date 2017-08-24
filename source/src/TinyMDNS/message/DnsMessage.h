@@ -159,7 +159,6 @@ typedef struct _DnsMessage
     bool              unicast;
 } DnsMessage;
 
-
 TINY_LOR
 TinyRet DnsMessage_Construct(DnsMessage *thiz);
 

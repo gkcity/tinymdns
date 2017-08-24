@@ -47,6 +47,7 @@ MESSAGE(STATUS "library output: ${LIBRARY_OUTPUT_PATH}")
 #-------------------------------------------------------------------------------------
 
 SET(Mdns_Header
+        ${SOURCE_ROOT}/TinyMDNS/mdns_api.h
         ${SOURCE_ROOT}/TinyMDNS/MdnsConstant.h
         ${SOURCE_ROOT}/TinyMDNS/ServiceInfo.h
         ${SOURCE_ROOT}/TinyMDNS/MdnsHandler.h

@@ -16,12 +16,14 @@
 #define __DNS_MESSAGE_CODEC_H__
 
 #include <channel/ChannelHandler.h>
+#include "mdns_api.h"
 
 TINY_BEGIN_DECLS
 
 
 #define DnsMessageCodec_Name    "DnsMessageCodec"
 
+MDNS_API
 TINY_LOR
 ChannelHandler * DnsMessageCodec(void);
 

@@ -14,6 +14,7 @@
 #define __SERVICE_INFO_H__
 
 #include <TinyMap.h>
+#include "mdns_api.h"
 
 TINY_BEGIN_DECLS
 
@@ -39,18 +40,23 @@ typedef struct _ServiceInfo
     TinyMap         txt;
 } ServiceInfo;
 
+MDNS_API
 TINY_LOR
 TinyRet ServiceInfo_Construct(ServiceInfo *thiz);
 
+MDNS_API
 TINY_LOR
 void ServiceInfo_Dispose(ServiceInfo *thiz);
 
+MDNS_API
 TINY_LOR
 ServiceInfo * ServiceInfo_New(void);
 
+MDNS_API
 TINY_LOR
 void ServiceInfo_Delete(ServiceInfo *thiz);
 
+MDNS_API
 TINY_LOR
 void ServiceInfo_Initialize(ServiceInfo *thiz, const char *name, const char *type, const char *ip, uint16_t port);
 

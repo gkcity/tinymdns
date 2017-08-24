@@ -6,6 +6,7 @@
 
 
 SET(Mdns_Header
+        mdns_api.h
         MdnsConstant.h
         ServiceInfo.h
         MdnsHandler.h
