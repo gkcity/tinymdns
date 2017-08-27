@@ -51,10 +51,10 @@ TINY_LOR
 void MdnsHandlerContext_Delete(MdnsHandlerContext *thiz);
 
 TINY_LOR
-TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, ServiceInfo *info);
+TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, const ServiceInfo *info);
 
 TINY_LOR
-TinyRet MdnsHandlerContext_Unregister(MdnsHandlerContext *thiz, ServiceInfo *info);
+TinyRet MdnsHandlerContext_Unregister(MdnsHandlerContext *thiz, const ServiceInfo *info);
 
 TINY_LOR
 DnsMessage * MdnsHandlerContext_MakeResponse(MdnsHandlerContext *thiz, DnsMessage *request);

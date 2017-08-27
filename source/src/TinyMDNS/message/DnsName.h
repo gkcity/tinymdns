@@ -69,7 +69,7 @@ TINY_LOR
 bool DnsName_IsServiceDnssd(DnsName *thiz);
 
 TINY_LOR
-TinyRet DnsName_Copy(DnsName *dst, DnsName *src);
+TinyRet DnsName_Copy(DnsName *dst, const DnsName *src);
 
 TINY_LOR
 uint32_t DnsName_ToBytes(DnsName *thiz, uint8_t *buf, uint32_t length, uint32_t offset);

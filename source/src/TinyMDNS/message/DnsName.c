@@ -174,7 +174,7 @@ uint32_t DnsName_Parse(DnsName *thiz, const uint8_t *buf, uint32_t len, uint32_t
 }
 
 TINY_LOR
-TinyRet DnsName_Copy(DnsName *thiz, DnsName *other)
+TinyRet DnsName_Copy(DnsName *thiz, const DnsName *other)
 {
     if (thiz != other)
     {

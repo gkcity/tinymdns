@@ -34,11 +34,11 @@ ChannelHandler * MdnsHandler(void);
 
 MDNS_API
 TINY_LOR
-TinyRet MdnsHandler_Register(ChannelHandler *thiz, ServiceInfo *info);
+TinyRet MdnsHandler_Register(ChannelHandler *thiz, const ServiceInfo *info);
 
 MDNS_API
 TINY_LOR
-TinyRet MdnsHandler_Unregister(ChannelHandler *thiz, ServiceInfo *info);
+TinyRet MdnsHandler_Unregister(ChannelHandler *thiz, const ServiceInfo *info);
 
 #ifdef MDNS_DISCOVERY
 MDNS_API

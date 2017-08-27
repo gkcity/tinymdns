@@ -123,13 +123,13 @@ static TinyRet MdnsHandler_Dispose(ChannelHandler *thiz)
 }
 
 TINY_LOR
-TinyRet MdnsHandler_Register(ChannelHandler *thiz, ServiceInfo *info)
+TinyRet MdnsHandler_Register(ChannelHandler *thiz, const ServiceInfo *info)
 {
     return MdnsHandlerContext_Register((MdnsHandlerContext *)(thiz->data), info);
 }
 
 TINY_LOR
-TinyRet MdnsHandler_Unregister(ChannelHandler *thiz, ServiceInfo *info)
+TinyRet MdnsHandler_Unregister(ChannelHandler *thiz, const ServiceInfo *info)
 {
     return MdnsHandlerContext_Unregister((MdnsHandlerContext *)(thiz->data), info);
 }

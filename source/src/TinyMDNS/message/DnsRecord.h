@@ -129,19 +129,19 @@ TINY_LOR
 void DnsRecord_Dispose(DnsRecord *thiz);
 
 TINY_LOR
-TinyRet DnsRecord_Copy(DnsRecord *thiz, DnsRecord *other);
+TinyRet DnsRecord_Copy(DnsRecord *thiz, const DnsRecord *other);
 
 TINY_LOR
-DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, DnsName *ptr);
+DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const DnsName *ptr);
 
 TINY_LOR
 DnsRecord * DnsRecord_NewA(DnsName *name, DnsRecordClass clazz, uint32_t ttl, uint32_t ip);
 
 TINY_LOR
-DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, uint16_t port, DnsName *host);
+DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, uint16_t port, const DnsName *host);
 
 TINY_LOR
-DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, TinyMap *txt);
+DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const TinyMap *txt);
 
 TINY_LOR
 int DnsRecord_Parse(DnsRecord *thiz, const uint8_t *buf, uint32_t len, uint32_t offset);

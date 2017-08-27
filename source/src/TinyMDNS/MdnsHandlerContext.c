@@ -120,7 +120,7 @@ void MdnsHandlerContext_Delete(MdnsHandlerContext *thiz)
 }
 
 TINY_LOR
-TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, ServiceInfo *info)
+TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, const ServiceInfo *info)
 {
     TinyRet ret = TINY_RET_OK;
 
@@ -235,7 +235,7 @@ TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, ServiceInfo *info)
          */
         if (info->txt.list.size > 0)
         {
-            record = DnsRecord_NewTXT(&serviceInstance, CLASS_IN, 120, &info->txt);
+            record = DnsRecord_NewTXT(&serviceInstance, CLASS_IN, 120, &(info->txt));
             if (record != NULL)
             {
                 ret = TinyList_AddTail(&thiz->txtRecords, record);
@@ -280,7 +280,7 @@ TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, ServiceInfo *info)
  * CNAME or PTR: .XiaomiFan._hap._tcp.local
  */
 TINY_LOR
-TinyRet MdnsHandlerContext_Unregister(MdnsHandlerContext *thiz, ServiceInfo *info)
+TinyRet MdnsHandlerContext_Unregister(MdnsHandlerContext *thiz, const ServiceInfo *info)
 {
     return TINY_RET_E_NOT_IMPLEMENTED;
 }

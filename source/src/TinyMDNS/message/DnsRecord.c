@@ -98,7 +98,7 @@ DnsRecord * DnsRecord_New(void)
 }
 
 TINY_LOR
-TinyRet DnsRecord_Copy(DnsRecord *dst, DnsRecord *src)
+TinyRet DnsRecord_Copy(DnsRecord *dst, const DnsRecord *src)
 {
     TinyRet ret = TINY_RET_OK;
 
@@ -173,7 +173,7 @@ void DnsRecord_Delete(DnsRecord *thiz)
 }
 
 TINY_LOR
-DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, DnsName *ptr)
+DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const DnsName *ptr)
 {
     DnsRecord *thiz = NULL;
 
@@ -250,7 +250,7 @@ DnsRecord * DnsRecord_NewA(DnsName *name, DnsRecordClass clazz, uint32_t ttl, ui
 }
 
 TINY_LOR
-DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, uint16_t port, DnsName *host)
+DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, uint16_t port, const DnsName *host)
 {
     DnsRecord *thiz = NULL;
 
@@ -297,7 +297,7 @@ DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
 }
 
 TINY_LOR
-DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, TinyMap *txt)
+DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const TinyMap *txt)
 {
     DnsRecord *thiz = NULL;
 
