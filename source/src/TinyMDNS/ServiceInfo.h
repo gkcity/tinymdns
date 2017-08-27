@@ -60,6 +60,14 @@ MDNS_API
 TINY_LOR
 void ServiceInfo_Initialize(ServiceInfo *thiz, const char *name, const char *type, const char *ip, uint16_t port);
 
+MDNS_API
+TINY_LOR
+TinyRet ServiceInfo_SetTXTByString(ServiceInfo *thiz, const char *key, const char *value);
+
+MDNS_API
+TINY_LOR
+TinyRet ServiceInfo_SetTXTByInteger(ServiceInfo *thiz, const char *key, uint32_t value);
+
 
 TINY_END_DECLS
 

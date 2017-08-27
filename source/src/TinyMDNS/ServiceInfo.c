@@ -15,10 +15,25 @@
 #include "ServiceInfo.h"
 
 TINY_LOR
+static void _OnItemDelete (void * data, void *ctx)
+{
+    tiny_free(data);
+}
+
+TINY_LOR
 TinyRet ServiceInfo_Construct(ServiceInfo *thiz)
 {
+    TinyRet ret = TINY_RET_OK;
+
     memset(thiz, 0, sizeof(ServiceInfo));
-    return TinyMap_Construct(&thiz->txt);
+
+    ret = TinyMap_Construct(&thiz->txt);
+    if (RET_SUCCEEDED(ret))
+    {
+        TinyMap_SetDeleteListener(&thiz->txt, _OnItemDelete, NULL);
+    }
+
+    return ret;
 }
 
 TINY_LOR
@@ -65,4 +80,29 @@ void ServiceInfo_Initialize(ServiceInfo *thiz, const char *name, const char *typ
     strncpy(thiz->type, type, MDNS_TYPE_LEN);
     strncpy(thiz->ip, ip, MDNS_IP_LEN);
     thiz->port = port;
+}
+
+TINY_LOR
+TinyRet ServiceInfo_SetTXTByString(ServiceInfo *thiz, const char *key, const char *value)
+{
+    size_t length = strlen(value) + 1;
+    char *v = (char *)tiny_malloc(length);
+    if (v == NULL)
+    {
+        return TINY_RET_E_NEW;
+    }
+
+    memset(v, 0, length);
+    strncpy(v, value, length - 1);
+
+    return TinyMap_Insert(&thiz->txt, key, v);
+}
+
+TINY_LOR
+TinyRet ServiceInfo_SetTXTByInteger(ServiceInfo *thiz, const char *key, uint32_t value)
+{
+    char string[8];
+    memset(string, 0, 8);
+    tiny_snprintf(string, 8, "%d", value);
+    return ServiceInfo_SetTXTByString(thiz, key, string);
 }
