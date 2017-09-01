@@ -45,10 +45,10 @@ TINY_LOR
 static bool _channelRead(ChannelHandler *thiz, Channel *channel, ChannelDataType type, const void *data, uint32_t len);
 
 TINY_LOR
-static void _channelEvent(ChannelHandler *thiz, Channel *channel, void *event);
+static void _channelEvent(ChannelHandler *thiz, Channel *channel, ChannelTimer *timer);
 
 TINY_LOR
-TinyRet _channelGetNextTimeout(Channel *thiz, ChannelTimer *timer, void *ctx);
+TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx);
 
 TINY_LOR
 ChannelHandler * MdnsHandler(void)
@@ -365,7 +365,7 @@ static bool _channelRead(ChannelHandler *thiz, Channel *channel, ChannelDataType
 }
 
 TINY_LOR
-static void _channelEvent(ChannelHandler *thiz, Channel *channel, void *event)
+static void _channelEvent(ChannelHandler *thiz, Channel *channel, ChannelTimer *timer)
 {
     LOG_D(TAG, "_channelEvent");
     _handleQuery(thiz, channel, NULL);
