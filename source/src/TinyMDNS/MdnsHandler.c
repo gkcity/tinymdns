@@ -14,7 +14,6 @@
 
 #include <tiny_log.h>
 #include <tiny_malloc.h>
-#include <tiny_time.h>
 #include <channel/ChannelTimer.h>
 #include <channel/SocketChannel.h>
 #include <channel/multicast/MulticastChannel.h>
@@ -86,7 +85,7 @@ static void MdnsHandler_Delete(ChannelHandler *thiz)
 TINY_LOR
 static TinyRet MdnsHandler_Construct(ChannelHandler *thiz)
 {
-    printf("MdnsHandler_Construct\n");
+    LOG_D(TAG, "MdnsHandler_Construct");
 
     RETURN_VAL_IF_FAIL(thiz, TINY_RET_E_ARG_NULL);
 
@@ -374,9 +373,6 @@ static void _channelEvent(ChannelHandler *thiz, Channel *channel, ChannelTimer *
 TINY_LOR
 TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx)
 {
-    // return (1000 * 1000 * ((MdnsHandlerContext *) (((ChannelHandler *)ctx)->data))->ttl);
-
-    uint64_t current = tiny_current_microsecond();
     ChannelHandler *thiz = (ChannelHandler *)ctx;
     MdnsHandlerContext * context = (MdnsHandlerContext *)(thiz->data);
     int64_t timeout = context->ttl * 1000000;

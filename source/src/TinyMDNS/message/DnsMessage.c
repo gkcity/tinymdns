@@ -100,8 +100,8 @@ static void print_message(DnsMessage *thiz)
 {
     printf("ID: %d\n", thiz->header.ID);
     printf("bits: 0x%04X\n", thiz->header.FLAG.value);
-
     printf("QR: %d", thiz->header.FLAG.bits.QR);
+
     switch (thiz->header.FLAG.bits.QR)
     {
         case QR_QUERY:
@@ -117,6 +117,7 @@ static void print_message(DnsMessage *thiz)
     }
 
     printf("Opcode: %d", thiz->header.FLAG.bits.Opcode);
+
     switch (thiz->header.FLAG.bits.Opcode)
     {
         case QPCODE_QUERY:
@@ -153,8 +154,8 @@ static void print_message(DnsMessage *thiz)
     printf("RD: %d (Recursion Desired)\n", thiz->header.FLAG.bits.RD);
     printf("RA: %d (Recursion Available)\n", thiz->header.FLAG.bits.RA);
     printf("Z: %d (Reserved)\n", thiz->header.FLAG.bits.Z);
-
     printf("RCODE: %d (Response code) = ", thiz->header.FLAG.bits.RCODE);
+
     switch (thiz->header.FLAG.bits.RCODE)
     {
         case RCODE_NO_ERROR:

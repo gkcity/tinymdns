@@ -13,9 +13,12 @@
  */
 
 #include <tiny_malloc.h>
+#include <tiny_log.h>
 #include "ServiceObserver.h"
 
 #ifdef MDNS_DISCOVERY
+
+#define TAG     "ServiceObserver"
 
 TINY_LOR
 static TinyRet ServiceObserver_Construct(ServiceObserver *thiz, const char *type, ServiceListener listener, void *ctx)
@@ -44,7 +47,7 @@ ServiceObserver * ServiceObserver_New(const char *type, ServiceListener listener
         thiz = tiny_malloc(sizeof(ServiceObserver));
         if (thiz == NULL)
         {
-            printf("tiny_malloc failed!\n");
+            LOG_E(TAG, "tiny_malloc failed!\n");
             break;
         }
 

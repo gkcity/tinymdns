@@ -50,15 +50,15 @@ MdnsHandlerContext * MdnsHandlerContext_New()
         thiz = tiny_malloc(sizeof(MdnsHandlerContext));
         if (thiz == NULL)
         {
-            printf("tiny_malloc failed!\n");
+            LOG_E(TAG, "tiny_malloc failed!");
             break;
         }
 
         if (RET_FAILED(MdnsHandlerContext_Construct(thiz)))
         {
+            LOG_E(TAG, "MdnsHandlerContext_Construct failed!\n");
             MdnsHandlerContext_Delete(thiz);
             thiz = NULL;
-            printf("MdnsHandlerContext_Construct failed!\n");
             break;
         }
     } while (0);
