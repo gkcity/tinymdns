@@ -176,6 +176,9 @@ uint32_t DnsName_Parse(DnsName *thiz, const uint8_t *buf, uint32_t len, uint32_t
 TINY_LOR
 TinyRet DnsName_Copy(DnsName *thiz, const DnsName *other)
 {
+    RETURN_VAL_IF_FAIL(thiz, TINY_RET_E_ARG_NULL);
+    RETURN_VAL_IF_FAIL(other, TINY_RET_E_ARG_NULL);
+
     if (thiz != other)
     {
         if (thiz->string != NULL)
@@ -199,7 +202,7 @@ TinyRet DnsName_Copy(DnsName *thiz, const DnsName *other)
         /**
          * string
          */
-        thiz->string = tiny_malloc(thiz->length);
+        thiz->string = (char *) tiny_malloc(thiz->length);
         if (thiz->string == NULL)
         {
             return TINY_RET_E_NEW;
@@ -226,6 +229,9 @@ TINY_LOR
 static TinyRet DnsName_Initialize(DnsName *thiz, const char *string, char x)
 {
     TinyRet ret = TINY_RET_OK;
+
+    RETURN_VAL_IF_FAIL(thiz, TINY_RET_E_ARG_NULL);
+    RETURN_VAL_IF_FAIL(string, TINY_RET_E_ARG_NULL);
 
     do
     {
