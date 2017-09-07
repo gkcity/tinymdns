@@ -256,7 +256,9 @@ static TinyRet DnsName_Initialize(DnsName *thiz, const char *string, char x)
         strncpy(thiz->string, string, thiz->length - 1);
         strncpy(thiz->bytes, string, thiz->length - 1);
 
+#ifdef TINY_DEBUG
         printf("DNSName: %s\n", thiz->string);
+#endif
 
         /**
          * update: [x] = length
