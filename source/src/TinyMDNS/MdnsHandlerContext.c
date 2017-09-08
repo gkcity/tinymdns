@@ -323,7 +323,7 @@ static void MdnsHandlerContext_AddRecord(DnsMessage *response,
 
         if (name == NULL)
         {
-            LOG_I(TAG, "DnsRecord FOUND!");
+            LOG_D(TAG, "DnsRecord FOUND!");
             MdnsHandlerContext_AddAnswer(response, record, ttl);
         }
         else
@@ -337,7 +337,7 @@ static void MdnsHandlerContext_AddRecord(DnsMessage *response,
 
             if (STR_EQUAL(value, name))
             {
-                LOG_I(TAG, "DnsRecord FOUND!");
+                LOG_D(TAG, "DnsRecord FOUND!");
                 MdnsHandlerContext_AddAnswer(response, record, ttl);
             }
         }
@@ -347,7 +347,7 @@ static void MdnsHandlerContext_AddRecord(DnsMessage *response,
 /**
  *
 
-1. Query DNSSD service
+1. Query DNSSD serviceH
 [0]
 Q NAME: ._services._dns-sd._udp.local
 Q TYPE: 12 = PTR

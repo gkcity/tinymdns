@@ -253,7 +253,7 @@ static void _handleQuery(ChannelHandler *thiz, Channel *channel, DnsMessage *que
 TINY_LOR
 static void _handleRequest(ChannelHandler *thiz, Channel *channel, DnsMessage *request)
 {
-    LOG_E(TAG, "_handleRequest");
+    LOG_I(TAG, "_handleRequest");
 
     switch (request->header.FLAG.bits.Opcode)
     {
@@ -277,7 +277,7 @@ static void _handleRequest(ChannelHandler *thiz, Channel *channel, DnsMessage *r
 TINY_LOR
 static void _handleResponse(ChannelHandler *thiz, Channel *channel, DnsMessage *response)
 {
-    LOG_E(TAG, "_handleResponse");
+    LOG_D(TAG, "_handleResponse");
 
     _handleRecord(thiz, channel, response);
 }

@@ -301,7 +301,7 @@ DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
 {
     DnsRecord *thiz = NULL;
 
-    LOG_E(TAG, "DnsRecord_NewTXT, count: %d", txt->list.size);
+    LOG_D(TAG, "DnsRecord_NewTXT, count: %d", txt->list.size);
 
     do
     {
@@ -361,7 +361,7 @@ DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
             thiz->data.txt.offset += 2 + keyLength + valueLength;
         }
 
-        LOG_E(TAG, "thiz->data.txt.length: %d", thiz->data.txt.length);
+        LOG_D(TAG, "thiz->data.txt.length: %d", thiz->data.txt.length);
     } while (0);
 
     return thiz;
