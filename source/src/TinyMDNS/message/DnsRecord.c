@@ -18,6 +18,7 @@
 #include <tiny_inet.h>
 #include <tiny_snprintf.h>
 #include <tiny_str_split.h>
+#include <TinyMapItem.h>
 #include "DnsRecord.h"
 
 #define TAG         "DnsRecord"
