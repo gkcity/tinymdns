@@ -223,8 +223,6 @@ TinyRet DnsName_Copy(DnsName *thiz, const DnsName *other)
     return TINY_RET_OK;
 }
 
-#define SERVICE_DNSSD       "._services._dns-sd._udp.local"
-
 TINY_LOR
 static TinyRet DnsName_Initialize(DnsName *thiz, const char *string, char x)
 {
@@ -256,9 +254,7 @@ static TinyRet DnsName_Initialize(DnsName *thiz, const char *string, char x)
         strncpy(thiz->string, string, thiz->length - 1);
         strncpy(thiz->bytes, string, thiz->length - 1);
 
-#ifdef TINY_DEBUG
-        printf("DNSName: %s\n", thiz->string);
-#endif
+        LOG_D(TAG, "DNSName: %s", thiz->string);
 
         /**
          * update: [x] = length

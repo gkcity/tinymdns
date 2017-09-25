@@ -59,12 +59,16 @@ TinyRet MdnsHandlerContext_Unregister(MdnsHandlerContext *thiz, const ServiceInf
 TINY_LOR
 DnsMessage * MdnsHandlerContext_MakeResponse(MdnsHandlerContext *thiz, DnsMessage *request);
 
+#ifdef MDNS_DISCOVERY
+TINY_LOR
+DnsMessage * MdnsHandlerContext_MakeRequestByDnssd(MdnsHandlerContext *thiz);
+
 TINY_LOR
 DnsMessage * MdnsHandlerContext_MakeRequest(MdnsHandlerContext *thiz);
 
 TINY_LOR
 DnsMessage * MdnsHandlerContext_MakeRequestByAnswers(MdnsHandlerContext *thiz,  TinyList *answers);
-
+#endif
 
 
 TINY_END_DECLS

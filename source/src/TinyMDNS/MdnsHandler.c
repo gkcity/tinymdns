@@ -285,12 +285,12 @@ static void _handleResponse(ChannelHandler *thiz, Channel *channel, DnsMessage *
 TINY_LOR
 static void _channelActive(ChannelHandler *thiz, Channel *channel)
 {
-    LOG_D(TAG, "_channelActive");
+    LOG_E(TAG, "_channelActive");
 
 #ifdef MDNS_DISCOVERY
     do
     {
-        DnsMessage * request = MdnsHandlerContext_MakeRequest((MdnsHandlerContext *)thiz->data);
+        DnsMessage * request = MdnsHandlerContext_MakeRequestByDnssd((MdnsHandlerContext *)thiz->data);
         if (request != NULL)
         {
             uint8_t buf[1024];
@@ -350,6 +350,11 @@ static bool _channelRead(ChannelHandler *thiz, Channel *channel, ChannelDataType
 
     LOG_D(TAG, "_channelRead: %d type: %d, len: %d from: %s: %d", channel->fd, type, len,
           channel->remote.socket.ip, channel->remote.socket.port);
+
+    if (STR_EQUAL(channel->remote.socket.ip, "127.0.0.1"))
+    {
+        return true;
+    }
 
     if (message->header.FLAG.bits.QR == QR_QUERY)
     {

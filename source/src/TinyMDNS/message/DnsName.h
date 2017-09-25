@@ -20,6 +20,9 @@
 TINY_BEGIN_DECLS
 
 
+#define SERVICE_DNSSD       "._services._dns-sd._udp.local"
+
+
 typedef struct _DnsName
 {
     /**

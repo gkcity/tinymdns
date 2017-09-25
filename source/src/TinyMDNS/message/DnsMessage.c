@@ -279,7 +279,7 @@ TinyRet DnsMessage_Parse(DnsMessage *thiz, const void *buf, uint32_t len)
     TinyRet ret = TINY_RET_OK;
     uint32_t offset = sizeof(Header);
 
-    LOG_BINARY("DnsMessage", buf, len, true);
+    // LOG_BINARY("DnsMessage", buf, len, true);
 
     memcpy(&thiz->header, buf, sizeof(Header));
     thiz->header.ID = ntohs(thiz->header.ID);

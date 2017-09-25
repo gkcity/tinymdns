@@ -10,10 +10,10 @@
  *
  */
 
+#include <tiny_log.h>
 #include <bootstrap/Bootstrap.h>
 #include <channel/multicast/MulticastChannel.h>
 #include <channel/SocketChannel.h>
-#include <tiny_log.h>
 #include <codec/DnsMessageCodec.h>
 #include <MdnsConstant.h>
 #include <MdnsHandler.h>

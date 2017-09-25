@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(TinyMDNS C)
+PROJECT(TinyMDNS-DEBUG C)
 
-SET(PROJ_NAME "TinyMDNS")
+SET(PROJ_NAME "TinyMDNS-DEBUG")
 
 #---------------------------------------------------------------------------------------
 #
@@ -17,7 +17,7 @@ INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyPortable)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyContainer)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyLog)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyStringUtil)
-INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyJson)
+INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyRandom)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/Netty)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyUmm)
 INCLUDE_DIRECTORIES(${TINY_ROOT}/source/src/TinyMd5)

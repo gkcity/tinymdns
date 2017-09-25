@@ -23,7 +23,7 @@ ADD_DEFINITIONS(-D_GNU_SOURCE)
 # dependence Libraries
 #
 #----------------------------------------------------------------------------
-SET(DEPENDENCE_LIB tiny)
+SET(DEPENDENCE_LIB tiny pthread)
 
 #----------------------------------------------------------------------------
 #
@@ -37,4 +37,4 @@ ADD_DEFINITIONS(-DTINY_DEBUG)
 # Support Discovery
 #
 #----------------------------------------------------------------------------
-ADD_DEFINITIONS(-DMDNS_DISCOVERY)
+#ADD_DEFINITIONS(-DMDNS_DISCOVERY)

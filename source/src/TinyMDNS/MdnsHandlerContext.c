@@ -15,16 +15,18 @@
 #include <tiny_malloc.h>
 #include <tiny_inet.h>
 #include <tiny_log.h>
+#include <tiny_snprintf.h>
+#include <tiny_random.h>
 #include <message/DnsRecord.h>
 #include <message/DnsQuestion.h>
 #include "MdnsHandlerContext.h"
+#include "MdnsConstant.h"
 
 #ifdef MDNS_DISCOVERY
 #include "ServiceObserver.h"
 #endif
 
 #define TAG             "MdnsHandlerContext"
-#define DEFAULT_TTL     120
 
 TINY_LOR
 static void _OnRecordDelete(void * data, void *ctx)
@@ -86,7 +88,7 @@ TinyRet MdnsHandlerContext_Construct(MdnsHandlerContext *thiz)
     TinyList_Construct(&thiz->txtRecords);
     TinyList_SetDeleteListener(&thiz->txtRecords, _OnRecordDelete, thiz);
 
-    thiz->ttl = DEFAULT_TTL;
+    thiz->ttl = MDNS_DEFAULT_TTL;
 
 #ifdef MDNS_DISCOVERY
     TinyList_Construct(&thiz->observers);
@@ -137,7 +139,18 @@ TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, const ServiceInfo 
     do
     {
         DnsRecord *record = NULL;
-        uint32_t ip = ntohl(inet_addr(info->ip));
+        uint32_t ip = 0;
+        char name[32];
+        uint8_t random[6];
+
+        ip = ntohl(inet_addr(info->ip));
+
+        tiny_random_create(random, 6);
+        memset(name, 0, 32);
+        tiny_snprintf(name, 32, "ouyang-%02x%02x%02x%02x%02x%02x",
+                      random[0], random[1], random[2], random[3], random[4], random[5]);
+
+        LOG_E(TAG, "register: %s", name);
 
         DnsName_Construct(&host);
         DnsName_Construct(&revHost);
@@ -148,7 +161,7 @@ TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, const ServiceInfo 
 
         DnsName_InitializeHost(&host, info->name);
         DnsName_InitializeReverseIpv4Host(&revHost, ip);
-        DnsName_InitializeServiceHost(&serviceHost, "ouyang");
+        DnsName_InitializeServiceHost(&serviceHost, name);
         DnsName_InitializeServiceInstance(&serviceInstance, info->name, info->type);
         DnsName_InitializeServiceType(&serviceType, info->type);
         DnsName_InitializeServiceDnssd(&serviceDnssd);
@@ -158,7 +171,7 @@ TinyRet MdnsHandlerContext_Register(MdnsHandlerContext *thiz, const ServiceInfo 
          *      NAME: .ouyangmbp.local
          *      A: 10.0.1.9
          */
-        record = DnsRecord_NewA(&serviceHost, CLASS_IN, 120, ip);
+        record = DnsRecord_NewA(&serviceHost, CLASS_IN, MDNS_DEFAULT_TTL, ip);
         if (record != NULL)
         {
             ret = TinyList_AddTail(&thiz->aRecords, record);
@@ -314,7 +327,7 @@ static void MdnsHandlerContext_AddRecord(DnsMessage *response,
                                          const char *name,
                                          bool fullName)
 {
-    LOG_D(TAG, "MdnsHandlerContext_AddRecord: %s", DnsRecordType_ToString(type));
+    LOG_D(TAG, "MdnsHandlerContext_AddRecord: %s (%d)", DnsRecordType_ToString(type), records->size);
 
     for (uint32_t i = 0; i < records->size; ++i)
     {
@@ -346,15 +359,14 @@ static void MdnsHandlerContext_AddRecord(DnsMessage *response,
 
 /**
  *
-
-1. Query DNSSD serviceH
+1. Query DNSSD service                  => What services do you have ?
 [0]
 Q NAME: ._services._dns-sd._udp.local
 Q TYPE: 12 = PTR
 Q UNICAST: 0
 Q CLASS: 1 (1) = IN
 
-2. Response
+2. Response                             => I have "_hap._tcp.local" .
 
 [2]
 NAME: ._services._dns-sd._udp.local
@@ -364,7 +376,7 @@ TTL: 4500 (1194)
 RDLength: 7 (7)
 CNAME or PTR: ._hap._tcp.local
 
-3. Continue Query ._hap._tcp.local 服务
+3. Continue Query ._hap._tcp.local      => What is "._hap._tcp.local" ?
 
 [0]
 Q NAME: ._hap._tcp.local
@@ -372,7 +384,7 @@ Q TYPE: 33 = SRV
 Q UNICAST: 0
 Q CLASS: 1 (1) = IN
 
-4. Response
+4. Response　　　　　　　　　　　　　　　　　 => "._hap._tcp.local" is ...
 [0]
 NAME: .XiaomiFan._hap._tcp.local
 TYPE: 16 = TXT
@@ -404,6 +416,7 @@ TTL: 120 (78)
 RDLength: 18 (12)
 SRV: .ouyangmbp.local
  */
+
 TINY_LOR
 static void MdnsHandlerContext_Query(MdnsHandlerContext *thiz, DnsQuestion *question, DnsMessage *response)
 {
@@ -414,31 +427,41 @@ static void MdnsHandlerContext_Query(MdnsHandlerContext *thiz, DnsQuestion *ques
         switch (question->type)
         {
             case TYPE_A:
-                MdnsHandlerContext_AddRecord(response, &thiz->aRecords, question->type, question->name.string, true);
+                MdnsHandlerContext_AddRecord(response, &thiz->aRecords, question->type, thiz->ttl, question->name.string, true);
                 break;
 
             case TYPE_PTR:
-                MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, question->name.string, true);
-                MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, question->name.string, true);
+                MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, thiz->ttl, question->name.string, true);
+                MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, thiz->ttl, question->name.string, true);
+
+//                if (STR_EQUAL(question->name.string, SERVICE_DNSSD)) {
+//                    LOG_E(TAG, "What services do you have ?");
+//                    MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, thiz->ttl, NULL, true);
+//                }
+//                else
+//                {
+//                    LOG_E(TAG, "What is %s ?", question->name.string);
+//                    MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, thiz->ttl, question->name.string, true);
+//                }
                 break;
 
             case TYPE_TXT:
-                MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, question->type, question->name.string, true);
+                MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, question->type, thiz->ttl, question->name.string, true);
                 break;
 
             case TYPE_SRV:
-                MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, question->type, question->name.string, false);
-                MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, NULL, false);
-                MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, question->name.string, true);
-                MdnsHandlerContext_AddRecord(response, &thiz->srvRecords, question->type, question->name.string, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, question->type, thiz->ttl, question->name.string, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, thiz->ttl, NULL, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, thiz->ttl, question->name.string, true);
+                MdnsHandlerContext_AddRecord(response, &thiz->srvRecords, question->type, thiz->ttl, question->name.string, false);
                 break;
 
             case TYPE_ANY:
-                MdnsHandlerContext_AddRecord(response, &thiz->aRecords, question->type, NULL, false);
-                MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, NULL, false);
-                MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, NULL, false);
-                MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, question->type, NULL, false);
-                MdnsHandlerContext_AddRecord(response, &thiz->srvRecords, question->type, NULL, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->aRecords, question->type, thiz->ttl, NULL, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, question->type, thiz->ttl, NULL, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, question->type, thiz->ttl, NULL, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, question->type, thiz->ttl, NULL, false);
+                MdnsHandlerContext_AddRecord(response, &thiz->srvRecords, question->type, thiz->ttl, NULL, false);
                 break;
 
             default:
@@ -499,8 +522,10 @@ DnsMessage * MdnsHandlerContext_MakeResponse(MdnsHandlerContext *thiz, DnsMessag
             MdnsHandlerContext_AddRecord(response, &thiz->aRecords, TYPE_A, 0, NULL, false);
             MdnsHandlerContext_AddRecord(response, &thiz->dnssdRecords, TYPE_PTR, 0, NULL, false);
             MdnsHandlerContext_AddRecord(response, &thiz->ptrRecords, TYPE_PTR, 0, NULL, false);
-            MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, TYPE_TXT, 0, NULL, false);
+
+            // name may be conflicted !
             MdnsHandlerContext_AddRecord(response, &thiz->srvRecords, TYPE_SRV, 0, NULL, false);
+            MdnsHandlerContext_AddRecord(response, &thiz->txtRecords, TYPE_TXT, 0, NULL, false);
         }
 
         if (response->answers.size == 0)
@@ -513,6 +538,54 @@ DnsMessage * MdnsHandlerContext_MakeResponse(MdnsHandlerContext *thiz, DnsMessag
     return response;
 }
 
+#ifdef MDNS_DISCOVERY
+
+TINY_LOR
+DnsMessage * MdnsHandlerContext_MakeRequestByDnssd(MdnsHandlerContext *thiz)
+{
+    DnsMessage *request = NULL;
+
+    RETURN_VAL_IF_FAIL(thiz, NULL);
+
+    LOG_E(TAG, "MdnsHandlerContext_MakeRequestByDnssd");
+
+    do
+    {
+        DnsQuestion * question = NULL;
+
+        request = DnsMessage_New();
+        if (request == NULL)
+        {
+            break;
+        }
+
+        request->header.ID = 0;
+        request->header.FLAG.bits.QR = QR_QUERY;
+
+        question = DnsQuestion_New();
+        if (question == NULL)
+        {
+            LOG_E(TAG, "DnsQuestion_New FAILED!");
+            break;
+        }
+
+        DnsName_InitializeServiceDnssd(&question->name);
+        question->type = TYPE_PTR;
+        question->clazz = CLASS_IN;
+
+        if (RET_FAILED(TinyList_AddTail(&request->questions, question)))
+        {
+            LOG_E(TAG, "TinyList_AddTail FAILED!");
+            DnsQuestion_Delete(question);
+            break;
+        }
+
+        request->header.QDCOUNT = (uint16_t) request->questions.size;
+    } while (0);
+
+    return request;
+}
+
 TINY_LOR
 DnsMessage * MdnsHandlerContext_MakeRequest(MdnsHandlerContext *thiz)
 {
@@ -520,7 +593,6 @@ DnsMessage * MdnsHandlerContext_MakeRequest(MdnsHandlerContext *thiz)
 
     RETURN_VAL_IF_FAIL(thiz, NULL);
 
-#ifdef MDNS_DISCOVERY
     do
     {
         if (thiz->observers.size == 0)
@@ -562,12 +634,10 @@ DnsMessage * MdnsHandlerContext_MakeRequest(MdnsHandlerContext *thiz)
 
         request->header.QDCOUNT = (uint16_t) request->questions.size;
     } while (0);
-#endif
 
     return request;
 }
 
-#ifdef MDNS_DISCOVERY
 TINY_LOR
 static DnsQuestion * MdnsHandlerContext_CreateQuestion(MdnsHandlerContext *thiz, DnsRecord *answer)
 {
@@ -602,7 +672,6 @@ static DnsQuestion * MdnsHandlerContext_CreateQuestion(MdnsHandlerContext *thiz,
 
     return NULL;
 }
-#endif
 
 TINY_LOR
 DnsMessage * MdnsHandlerContext_MakeRequestByAnswers(MdnsHandlerContext *thiz,  TinyList *answers)
@@ -612,7 +681,8 @@ DnsMessage * MdnsHandlerContext_MakeRequestByAnswers(MdnsHandlerContext *thiz,  
     RETURN_VAL_IF_FAIL(thiz, NULL);
     RETURN_VAL_IF_FAIL(answers, NULL);
 
-#ifdef MDNS_DISCOVERY
+    LOG_E(TAG, "MdnsHandlerContext_MakeRequestByAnswers");
+
     do
     {
         if (thiz->observers.size == 0)
@@ -623,10 +693,9 @@ DnsMessage * MdnsHandlerContext_MakeRequestByAnswers(MdnsHandlerContext *thiz,  
         request = DnsMessage_New();
         if (request == NULL)
         {
+            LOG_E(TAG, "DnsMessage_New failed!");
             break;
         }
-
-        LOG_E(TAG, "MdnsHandlerContext_MakeRequestByAnswers");
 
         request->header.ID = 0;
         request->header.FLAG.bits.QR = QR_QUERY;
@@ -638,13 +707,21 @@ DnsMessage * MdnsHandlerContext_MakeRequestByAnswers(MdnsHandlerContext *thiz,  
                   DnsRecordClass_ToString(answer->clazz), answer->ttl);
 
             DnsQuestion *question = MdnsHandlerContext_CreateQuestion(thiz, answer);
-            if (question != NULL)
+            if (question == NULL)
             {
-                TinyList_AddTail(&request->questions, question);
+                continue;
+            }
+
+            if (RET_FAILED(TinyList_AddTail(&request->questions, question)))
+            {
+                LOG_E(TAG, "TinyList_AddTail failed!");
+                DnsQuestion_Delete(question);
             }
         }
 
         request->header.QDCOUNT = (uint16_t) request->questions.size;
+
+        LOG_E(TAG, "Question.QDCOUNT: %d", request->header.QDCOUNT);
 
         if (request->header.QDCOUNT == 0)
         {
@@ -652,7 +729,8 @@ DnsMessage * MdnsHandlerContext_MakeRequestByAnswers(MdnsHandlerContext *thiz,  
             request = NULL;
         }
     } while (0);
-#endif
 
     return request;
 }
+
+#endif /* MDNS_DISCOVERY */

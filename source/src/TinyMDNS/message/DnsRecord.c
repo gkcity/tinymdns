@@ -511,7 +511,7 @@ int DnsRecord_Parse(DnsRecord *thiz, const uint8_t *buf, uint32_t len, uint32_t 
         parsed += dataLength;
 
 #ifdef TINY_DEBUG
-                printf("\n");
+        printf("\n");
 #endif
     }
 
