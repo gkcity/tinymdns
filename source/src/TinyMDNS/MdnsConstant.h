@@ -20,7 +20,7 @@ TINY_BEGIN_DECLS
 
 #define MDNS_GROUP              "224.0.0.251"
 #define MDNS_PORT               5353
-#define MDNS_DEFAULT_TTL        60
+#define MDNS_DEFAULT_TTL        40
 
 
 TINY_END_DECLS

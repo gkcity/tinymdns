@@ -101,8 +101,8 @@ static TinyRet MdnsHandler_Construct(ChannelHandler *thiz)
     thiz->channelWrite = NULL;
     thiz->channelEvent = _channelEvent;
     thiz->getTimeout = _channelGetNextTimeout;
-    thiz->data = MdnsHandlerContext_New();
-    if (thiz->data == NULL)
+    thiz->context = MdnsHandlerContext_New();
+    if (thiz->context == NULL)
     {
         return TINY_RET_E_NEW;
     }
@@ -115,7 +115,7 @@ static TinyRet MdnsHandler_Dispose(ChannelHandler *thiz)
 {
     RETURN_VAL_IF_FAIL(thiz, TINY_RET_E_ARG_NULL);
 
-    MdnsHandlerContext_Delete((MdnsHandlerContext *) (thiz->data));
+    MdnsHandlerContext_Delete((MdnsHandlerContext *) (thiz->context));
     memset(thiz, 0, sizeof(ChannelHandler));
 
     return TINY_RET_OK;
@@ -124,13 +124,13 @@ static TinyRet MdnsHandler_Dispose(ChannelHandler *thiz)
 TINY_LOR
 TinyRet MdnsHandler_Register(ChannelHandler *thiz, const ServiceInfo *info)
 {
-    return MdnsHandlerContext_Register((MdnsHandlerContext *)(thiz->data), info);
+    return MdnsHandlerContext_Register((MdnsHandlerContext *)(thiz->context), info);
 }
 
 TINY_LOR
 TinyRet MdnsHandler_Unregister(ChannelHandler *thiz, const ServiceInfo *info)
 {
-    return MdnsHandlerContext_Unregister((MdnsHandlerContext *)(thiz->data), info);
+    return MdnsHandlerContext_Unregister((MdnsHandlerContext *)(thiz->context), info);
 }
 
 #ifdef MDNS_DISCOVERY
@@ -201,7 +201,7 @@ static void _handleQuery(ChannelHandler *thiz, Channel *channel, DnsMessage *que
 {
     LOG_D(TAG, "_handleQuery");
 
-    DnsMessage *response = MdnsHandlerContext_MakeResponse( (MdnsHandlerContext *) (thiz->data), query);
+    DnsMessage *response = MdnsHandlerContext_MakeResponse( (MdnsHandlerContext *) (thiz->context), query);
     if (response != NULL)
     {
         uint8_t buf[1024];
@@ -322,7 +322,7 @@ static void _channelInactive(ChannelHandler *thiz, Channel *channel)
 {
     LOG_D(TAG, "_channelInactive");
 
-    DnsMessage *response = MdnsHandlerContext_MakeResponse( (MdnsHandlerContext *) (thiz->data), NULL);
+    DnsMessage *response = MdnsHandlerContext_MakeResponse( (MdnsHandlerContext *) (thiz->context), NULL);
     if (response != NULL)
     {
         uint8_t buf[1024];
@@ -379,7 +379,7 @@ TINY_LOR
 TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx)
 {
     ChannelHandler *thiz = (ChannelHandler *)ctx;
-    MdnsHandlerContext * context = (MdnsHandlerContext *)(thiz->data);
+    MdnsHandlerContext * context = (MdnsHandlerContext *)(thiz->context);
     int64_t timeout = context->ttl * 1000000;
 
     timer->valid = true;

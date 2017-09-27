@@ -73,7 +73,7 @@ static TinyRet DnsMessageCodec_Construct(ChannelHandler *thiz)
     thiz->outType = DATA_MDNS_MESSAGE;
     thiz->channelRead = _channelRead;
     thiz->channelWrite = NULL;
-    thiz->data = NULL;
+    thiz->context = NULL;
 
     return TINY_RET_OK;
 }
