@@ -44,7 +44,7 @@ int main(void)
     tiny_socket_initialize();
 
     ServiceInfo_Construct(&info);
-    ServiceInfo_Initialize(&info, "hello", SERVICE_TYPE_HAP, "10.0.1.9", 8080);
+    ServiceInfo_Initialize(&info, "hello123456abc", SERVICE_TYPE_HAP, "10.0.1.9", 8080);
     TinyMap_Insert(&info.txt, "pv", "1.0");                 // protocol version
     TinyMap_Insert(&info.txt, "sf", "1");                   // discoverable ? "1" : "0"
     TinyMap_Insert(&info.txt, "id", "AA:BB:CC:00:11:22");

@@ -26,14 +26,14 @@ TINY_BEGIN_DECLS
 
 #define SERVICE_TYPE_HAP            "._hap._tcp.local"
 
-#define MDNS_NAME_LEN   32
+#define MDNS_NAME_LEN   14
 #define MDNS_IP_LEN     32
 #define MDNS_TYPE_LEN   64
 
 
 typedef struct _ServiceInfo
 {
-    char            name[MDNS_NAME_LEN];
+    char            name[MDNS_NAME_LEN + 1];
     char            ip[MDNS_IP_LEN];
     char            type[MDNS_TYPE_LEN];
     uint16_t        port;
