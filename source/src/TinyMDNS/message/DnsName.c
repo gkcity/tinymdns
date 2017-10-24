@@ -14,7 +14,7 @@
 
 #include <tiny_log.h>
 #include <tiny_malloc.h>
-#include <tiny_log_binary.h>
+#include <tiny_print_binary.h>
 #include <tiny_snprintf.h>
 #include "DnsName.h"
 

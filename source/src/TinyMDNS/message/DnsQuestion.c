@@ -14,7 +14,7 @@
 
 #include <tiny_malloc.h>
 #include <tiny_inet.h>
-#include <tiny_log_binary.h>
+#include <tiny_print_binary.h>
 #include "DnsQuestion.h"
 
 TINY_LOR
