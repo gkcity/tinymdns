@@ -151,7 +151,7 @@ TinyRet MdnsHandler_AddListener(ChannelHandler *thiz, const char *type, ServiceL
         return TINY_RET_E_NEW;
     }
 
-    return TinyList_AddTail(& ((MdnsHandlerContext *)(thiz->data))->observers, observer);
+    return TinyList_AddTail(& ((MdnsHandlerContext *)(thiz->context))->observers, observer);
 }
 #endif
 
@@ -173,7 +173,7 @@ static void _handleRecord(ChannelHandler *thiz, Channel *channel, DnsMessage *me
     LOG_D(TAG, "_handleRecord");
 
 #ifdef MDNS_DISCOVERY
-    DnsMessage * request = MdnsHandlerContext_MakeRequestByAnswers((MdnsHandlerContext *) (thiz->data), &message->answers);
+    DnsMessage * request = MdnsHandlerContext_MakeRequestByAnswers((MdnsHandlerContext *) (thiz->context), &message->answers);
     if (request != NULL)
     {
         uint8_t buf[1024];
@@ -290,7 +290,7 @@ static void _channelActive(ChannelHandler *thiz, Channel *channel)
 #ifdef MDNS_DISCOVERY
     do
     {
-        DnsMessage * request = MdnsHandlerContext_MakeRequestByDnssd((MdnsHandlerContext *)thiz->data);
+        DnsMessage * request = MdnsHandlerContext_MakeRequestByDnssd((MdnsHandlerContext *)thiz->context);
         if (request != NULL)
         {
             uint8_t buf[1024];
