@@ -20,7 +20,12 @@
 
 #define TAG             "example_discovery"
 
-void tiny_print_stack_info(const char *tag, const char *function)
+void tiny_sleep(int ms)
+{
+    printf("tiny_sleep: %d\n", ms);
+}
+
+void tiny_print_mem(const char *tag, const char *function)
 {
 }
 

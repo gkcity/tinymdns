@@ -4,7 +4,7 @@
  * @author jxfengzi@gmail.com
  * @date   2013-11-19
  *
- * @file   example_registry.c
+ * @file   sample_registry.c
  *
  * @remark
  *
@@ -14,33 +14,19 @@
 #include <channel/multicast/MulticastChannel.h>
 #include <channel/SocketChannel.h>
 #include <tiny_log.h>
-#include "codec/DnsMessageCodec.h"
-#include "MdnsHandler.h"
-#include "MdnsConstant.h"
-
-#define TAG             "example_registry"
-
-void tiny_sleep(int ms)
-{
-    printf("tiny_sleep: %d\n", ms);
-}
-
-void tiny_print_mem(const char *tag, const char *function)
-{
-}
+#include <codec/DnsMessageCodec.h>
+#include <MdnsHandler.h>
+#include <MdnsConstant.h>
 
 static void BonjourInitializer(Channel *channel, void *ctx)
 {
     ChannelHandler *registry = MdnsHandler();
     MdnsHandler_Register(registry, (ServiceInfo *) ctx);
-
-    LOG_D(TAG, "BonjourInitializer: %s", channel->id);
-
     SocketChannel_AddLast(channel, DnsMessageCodec());
     SocketChannel_AddLast(channel, registry);
 }
 
-int main(void)
+void sample_registry(void *pvParameters)
 {
     Bootstrap sb;
     ServiceInfo info;
@@ -61,7 +47,7 @@ int main(void)
 
     channel = MulticastChannel_New();
     MulticastChannel_Initialize(channel, BonjourInitializer, &info);
-    MulticastChannel_Join(channel, "10.0.1.9", MDNS_GROUP, MDNS_PORT, true);
+    MulticastChannel_Join(channel, "10.0.1.33", MDNS_GROUP, MDNS_PORT, false);
     Bootstrap_Construct(&sb);
     Bootstrap_AddChannel(&sb, channel);
     Bootstrap_Sync(&sb);
@@ -69,6 +55,4 @@ int main(void)
     Bootstrap_Dispose(&sb);
 
     tiny_socket_finalize();
-
-    return 0;
 }

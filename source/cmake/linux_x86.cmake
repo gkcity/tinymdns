@@ -38,4 +38,4 @@ ADD_DEFINITIONS(-DTINY_DEBUG)
 # Support Discovery
 #
 #----------------------------------------------------------------------------
-#ADD_DEFINITIONS(-DMDNS_DISCOVERY)
+ADD_DEFINITIONS(-DMDNS_DISCOVERY)
