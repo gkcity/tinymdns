@@ -24,25 +24,33 @@
 TINY_LOR
 static bool _channelRead(ChannelHandler *thiz, Channel *channel, ChannelDataType type, const void *data, uint32_t len)
 {
-    DnsMessage message;
-
-//    tiny_print_stack_info(TAG, "_channelRead");
-
-    if (type != DATA_RAW)
+    do
     {
-        LOG_D(TAG, "_channelRead inType error: %d", type);
-        return true;
-    }
+        DnsMessage message;
 
-    if (RET_SUCCEEDED(DnsMessage_Construct(&message)))
-    {
-        if (RET_SUCCEEDED(DnsMessage_Parse(&message, data, len)))
+        if (type != DATA_RAW)
         {
-            SocketChannel_NextRead(channel, DATA_MDNS_MESSAGE, &message, len);
+            LOG_D(TAG, "inType error: %d", type);
+            break;
         }
 
+        if (RET_FAILED(DnsMessage_Construct(&message)))
+        {
+            LOG_I(TAG, "DnsMessage_Construct FAILED!");
+            break;
+        }
+
+        if (RET_FAILED(DnsMessage_Parse(&message, data, len)))
+        {
+            LOG_I(TAG, "DnsMessage_Parse FAILED!");
+            DnsMessage_Dispose(&message);
+            break;
+        }
+
+        SocketChannel_NextRead(channel, DATA_MDNS_MESSAGE, &message, len);
+
         DnsMessage_Dispose(&message);
-    }
+    } while (false);
 
     return true;
 }

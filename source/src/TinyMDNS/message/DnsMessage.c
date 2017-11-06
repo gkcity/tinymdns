@@ -39,19 +39,47 @@ static void _OnResourceDelete(void * data, void *ctx)
 TINY_LOR
 TinyRet DnsMessage_Construct(DnsMessage *thiz)
 {
-    memset(thiz, 0, sizeof(DnsMessage));
+    TinyRet ret = TINY_RET_OK;
 
-    TinyList_Construct(&thiz->questions);
-    TinyList_Construct(&thiz->answers);
-    TinyList_Construct(&thiz->authorities);
-    TinyList_Construct(&thiz->additionals);
+    do
+    {
+        memset(thiz, 0, sizeof(DnsMessage));
 
-    TinyList_SetDeleteListener(&thiz->questions, _OnQuestionDelete, thiz);
-    TinyList_SetDeleteListener(&thiz->answers, _OnResourceDelete, thiz);
-    TinyList_SetDeleteListener(&thiz->authorities, _OnResourceDelete, thiz);
-    TinyList_SetDeleteListener(&thiz->additionals, _OnResourceDelete, thiz);
+        ret = TinyList_Construct(&thiz->questions);
+        if (RET_FAILED(ret))
+        {
+            LOG_E(TAG, "TinyList_Construct FAILED");
+            break;
+        }
 
-    return TINY_RET_OK;
+        ret = TinyList_Construct(&thiz->answers);
+        if (RET_FAILED(ret))
+        {
+            LOG_E(TAG, "TinyList_Construct FAILED");
+            break;
+        }
+
+        ret = TinyList_Construct(&thiz->authorities);
+        if (RET_FAILED(ret))
+        {
+            LOG_E(TAG, "TinyList_Construct FAILED");
+            break;
+        }
+
+        ret = TinyList_Construct(&thiz->additionals);
+        if (RET_FAILED(ret))
+        {
+            LOG_E(TAG, "TinyList_Construct FAILED");
+            break;
+        }
+
+        TinyList_SetDeleteListener(&thiz->questions, _OnQuestionDelete, thiz);
+        TinyList_SetDeleteListener(&thiz->answers, _OnResourceDelete, thiz);
+        TinyList_SetDeleteListener(&thiz->authorities, _OnResourceDelete, thiz);
+        TinyList_SetDeleteListener(&thiz->additionals, _OnResourceDelete, thiz);
+    } while (false);
+
+    return ret;
 }
 
 TINY_LOR
@@ -197,6 +225,8 @@ static void print_message(DnsMessage *thiz)
 TINY_LOR
 static TinyRet DnsMessage_ParseDnsQuestion(DnsMessage *thiz, const void *buf, uint32_t len, uint32_t *offset, TinyList *list, int count)
 {
+    LOG_I(TAG, "DnsMessage_ParseDnsQuestion");
+
     for (int i = 0; i < count; ++i)
     {
         int size = 0;
@@ -279,7 +309,7 @@ TinyRet DnsMessage_Parse(DnsMessage *thiz, const void *buf, uint32_t len)
     TinyRet ret = TINY_RET_OK;
     uint32_t offset = sizeof(Header);
 
-    // LOG_BINARY("DnsMessage", buf, len, true);
+//    LOG_BINARY("DnsMessage_Parse", buf, len, true);
 
     memcpy(&thiz->header, buf, sizeof(Header));
     thiz->header.ID = ntohs(thiz->header.ID);
