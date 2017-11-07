@@ -85,14 +85,6 @@ int DnsQuestion_Parse(DnsQuestion *thiz, const uint8_t *buf, uint32_t len, uint3
     thiz->type = (DnsRecordType) (((uint16_t)(buf[offset + parsed])) << 8) + buf[offset + parsed + 1];
     thiz->clazz = (DnsRecordClass) (((uint16_t)(buf[offset + parsed + 2])) << 8) + buf[offset + parsed + 3];
 
-//#if defined(ESP32) || defined(ESP8266)
-//    thiz->type = (DnsRecordType) (((uint16_t)(buf[offset + parsed])) << 8) + buf[offset + parsed + 1];
-//    thiz->clazz = (DnsRecordClass) (((uint16_t)(buf[offset + parsed + 2])) << 8) + buf[offset + parsed + 3];
-//#else
-//    thiz->type = (DnsRecordType) (ntohs(*((uint16_t *) (buf + offset + parsed))));
-//    thiz->clazz = (DnsRecordClass) (ntohs(*((uint16_t *) (buf + offset + parsed + 2))));
-//#endif
-
     thiz->unicast = ((thiz->clazz & 0x8000) == 0x8000);
     thiz->clazz &= 0x7FFF;
     parsed += 4;
