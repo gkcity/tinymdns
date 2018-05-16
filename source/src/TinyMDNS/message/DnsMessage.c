@@ -258,6 +258,7 @@ static TinyRet DnsMessage_ParseDnsQuestion(DnsMessage *thiz, const void *buf, ui
         if (RET_FAILED(TinyList_AddTail(list, question)))
         {
             LOG_E(TAG, "TinyList_AddTail FAILED");
+            DnsQuestion_Delete(question);
             break;
         }
 

@@ -191,6 +191,7 @@ DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_SetString FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -202,6 +203,7 @@ DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_Construct FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -209,6 +211,7 @@ DnsRecord * DnsRecord_NewPTR(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_SetString FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
     } while (0);
@@ -236,6 +239,7 @@ DnsRecord * DnsRecord_NewA(DnsName *name, DnsRecordClass clazz, uint32_t ttl, ui
         {
             LOG_E(TAG, "DnsName_SetString FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -268,6 +272,7 @@ DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_SetString FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -279,6 +284,7 @@ DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_Construct FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -286,6 +292,7 @@ DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_SetString FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -317,6 +324,7 @@ DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "DnsName_SetString FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
@@ -345,6 +353,7 @@ DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
         {
             LOG_E(TAG, "tiny_malloc FAILED");
             DnsRecord_Delete(thiz);
+            thiz = NULL;
             break;
         }
 
