@@ -83,11 +83,18 @@ SET(SRC
 #----------------------------------------------------------------------------
 # static library
 #----------------------------------------------------------------------------
+IF (EXPORT_STATIC_LIBRARY EQUAL 1)
 ADD_LIBRARY(tinymdns_static STATIC ${SRC})
 SET_TARGET_PROPERTIES(tinymdns_static PROPERTIES OUTPUT_NAME "tinymdns_static")
 SET_TARGET_PROPERTIES(tinymdns_static PROPERTIES LINKER_LANGUAGE C)
+ENDIF ()
 
+#----------------------------------------------------------------------------
+# shared library
+#----------------------------------------------------------------------------
+IF (EXPORT_SHARED_LIBRARY EQUAL 1)
 ADD_LIBRARY(tinymdns SHARED ${SRC})
 SET_TARGET_PROPERTIES(tinymdns PROPERTIES OUTPUT_NAME "tinymdns")
 SET_TARGET_PROPERTIES(tinymdns PROPERTIES LINKER_LANGUAGE C)
 TARGET_LINK_LIBRARIES(tinymdns ${DEPENDENCE_LIB})
+ENDIF ()
