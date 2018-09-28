@@ -47,14 +47,14 @@ SET(DEPENDENCE_LIB tiny)
 # DEBUG INFORMATION
 #
 #----------------------------------------------------------------------------
-ADD_DEFINITIONS(-DTINY_DEBUG)
+#ADD_DEFINITIONS(-DTINY_DEBUG)
 
 #----------------------------------------------------------------------------
 #
 # Support Discovery
 #
 #----------------------------------------------------------------------------
-ADD_DEFINITIONS(-DMDNS_DISCOVERY)
+#ADD_DEFINITIONS(-DMDNS_DISCOVERY)
 
 #----------------------------------------------------------------------------
 #
