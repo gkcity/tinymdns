@@ -71,31 +71,55 @@ MdnsHandlerContext * MdnsHandlerContext_New()
 TINY_LOR
 TinyRet MdnsHandlerContext_Construct(MdnsHandlerContext *thiz)
 {
-    memset(thiz, 0, sizeof(MdnsHandlerContext));
+    TinyRet ret = TINY_RET_OK;
 
-    TinyList_Construct(&thiz->dnssdRecords);
-    TinyList_SetDeleteListener(&thiz->dnssdRecords, _OnRecordDelete, thiz);
+    do
+    {
+        memset(thiz, 0, sizeof(MdnsHandlerContext));
 
-    TinyList_Construct(&thiz->aRecords);
-    TinyList_SetDeleteListener(&thiz->aRecords, _OnRecordDelete, thiz);
+        ret = TinyList_Construct(&thiz->dnssdRecords, _OnRecordDelete, thiz);
+        if (RET_FAILED(ret))
+        {
+            break;
+        }
 
-    TinyList_Construct(&thiz->ptrRecords);
-    TinyList_SetDeleteListener(&thiz->ptrRecords, _OnRecordDelete, thiz);
+        ret = TinyList_Construct(&thiz->aRecords, _OnRecordDelete, thiz);
+        if (RET_FAILED(ret))
+        {
+            break;
+        }
 
-    TinyList_Construct(&thiz->srvRecords);
-    TinyList_SetDeleteListener(&thiz->srvRecords, _OnRecordDelete, thiz);
+        ret = TinyList_Construct(&thiz->ptrRecords, _OnRecordDelete, thiz);
+        if (RET_FAILED(ret))
+        {
+            break;
+        }
 
-    TinyList_Construct(&thiz->txtRecords);
-    TinyList_SetDeleteListener(&thiz->txtRecords, _OnRecordDelete, thiz);
+        ret = TinyList_Construct(&thiz->srvRecords, _OnRecordDelete, thiz);
+        if (RET_FAILED(ret))
+        {
+            break;
+        }
 
-    thiz->ttl = MDNS_DEFAULT_TTL;
+        ret = TinyList_Construct(&thiz->txtRecords, _OnRecordDelete, thiz);
+        if (RET_FAILED(ret))
+        {
+            break;
+        }
+
+        thiz->ttl = MDNS_DEFAULT_TTL;
 
 #ifdef MDNS_DISCOVERY
-    TinyList_Construct(&thiz->observers);
-    TinyList_SetDeleteListener(&thiz->observers, _OnObserverDelete, thiz);
+        ret = TinyList_Construct(&thiz->observers, _OnObserverDelete, thiz);
+        if (RET_FAILED(ret))
+        {
+            break;
+        }
 #endif
+    } while (false);
 
-    return TINY_RET_OK;
+
+    return ret;
 }
 
 TINY_LOR

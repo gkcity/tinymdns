@@ -45,38 +45,33 @@ TinyRet DnsMessage_Construct(DnsMessage *thiz)
     {
         memset(thiz, 0, sizeof(DnsMessage));
 
-        ret = TinyList_Construct(&thiz->questions);
+        ret = TinyList_Construct(&thiz->questions, _OnQuestionDelete, thiz);
         if (RET_FAILED(ret))
         {
             LOG_E(TAG, "TinyList_Construct FAILED");
             break;
         }
 
-        ret = TinyList_Construct(&thiz->answers);
+        ret = TinyList_Construct(&thiz->answers, _OnResourceDelete, thiz);
         if (RET_FAILED(ret))
         {
             LOG_E(TAG, "TinyList_Construct FAILED");
             break;
         }
 
-        ret = TinyList_Construct(&thiz->authorities);
+        ret = TinyList_Construct(&thiz->authorities, _OnResourceDelete, thiz);
         if (RET_FAILED(ret))
         {
             LOG_E(TAG, "TinyList_Construct FAILED");
             break;
         }
 
-        ret = TinyList_Construct(&thiz->additionals);
+        ret = TinyList_Construct(&thiz->additionals, _OnResourceDelete, thiz);
         if (RET_FAILED(ret))
         {
             LOG_E(TAG, "TinyList_Construct FAILED");
             break;
         }
-
-        TinyList_SetDeleteListener(&thiz->questions, _OnQuestionDelete, thiz);
-        TinyList_SetDeleteListener(&thiz->answers, _OnResourceDelete, thiz);
-        TinyList_SetDeleteListener(&thiz->authorities, _OnResourceDelete, thiz);
-        TinyList_SetDeleteListener(&thiz->additionals, _OnResourceDelete, thiz);
     } while (false);
 
     return ret;

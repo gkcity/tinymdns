@@ -23,17 +23,9 @@ static void _OnItemDelete (void * data, void *ctx)
 TINY_LOR
 TinyRet ServiceInfo_Construct(ServiceInfo *thiz)
 {
-    TinyRet ret = TINY_RET_OK;
-
     memset(thiz, 0, sizeof(ServiceInfo));
 
-    ret = TinyMap_Construct(&thiz->txt);
-    if (RET_SUCCEEDED(ret))
-    {
-        TinyMap_SetDeleteListener(&thiz->txt, _OnItemDelete, NULL);
-    }
-
-    return ret;
+    return TinyMap_Construct(&thiz->txt, _OnItemDelete, NULL);
 }
 
 TINY_LOR
