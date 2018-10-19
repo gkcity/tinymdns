@@ -55,7 +55,7 @@ int main(void)
     channel = MulticastChannel_New();
     MulticastChannel_Initialize(channel, BonjourInitializer, NULL);
     MulticastChannel_Join(channel, "10.0.1.9", MDNS_GROUP, MDNS_PORT, true);
-    Bootstrap_Construct(&sb);
+    Bootstrap_Construct(&sb, NULL, NULL);
     Bootstrap_AddChannel(&sb, channel);
     Bootstrap_Sync(&sb);
     Bootstrap_Shutdown(&sb);
