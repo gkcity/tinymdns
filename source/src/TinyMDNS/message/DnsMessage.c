@@ -220,7 +220,7 @@ static void print_message(DnsMessage *thiz)
 TINY_LOR
 static TinyRet DnsMessage_ParseDnsQuestion(DnsMessage *thiz, const void *buf, uint32_t len, uint32_t *offset, TinyList *list, int count)
 {
-    LOG_I(TAG, "DnsMessage_ParseDnsQuestion");
+//    LOG_I(TAG, "DnsMessage_ParseDnsQuestion");
 
     for (int i = 0; i < count; ++i)
     {

@@ -199,7 +199,7 @@ static void _handleRecord(ChannelHandler *thiz, Channel *channel, DnsMessage *me
 TINY_LOR
 static void _handleQuery(ChannelHandler *thiz, Channel *channel, DnsMessage *query)
 {
-    LOG_D(TAG, "_handleQuery");
+//    LOG_D(TAG, "_handleQuery");
 
     DnsMessage *response = MdnsHandlerContext_MakeResponse( (MdnsHandlerContext *) (thiz->context), query);
     if (response != NULL)
@@ -253,7 +253,7 @@ static void _handleQuery(ChannelHandler *thiz, Channel *channel, DnsMessage *que
 TINY_LOR
 static void _handleRequest(ChannelHandler *thiz, Channel *channel, DnsMessage *request)
 {
-    LOG_I(TAG, "_handleRequest");
+//    LOG_I(TAG, "_handleRequest");
 
     switch (request->header.FLAG.bits.Opcode)
     {
@@ -277,7 +277,7 @@ static void _handleRequest(ChannelHandler *thiz, Channel *channel, DnsMessage *r
 TINY_LOR
 static void _handleResponse(ChannelHandler *thiz, Channel *channel, DnsMessage *response)
 {
-    LOG_D(TAG, "_handleResponse");
+//    LOG_D(TAG, "_handleResponse");
 
     _handleRecord(thiz, channel, response);
 }
@@ -285,7 +285,7 @@ static void _handleResponse(ChannelHandler *thiz, Channel *channel, DnsMessage *
 TINY_LOR
 static void _channelActive(ChannelHandler *thiz, Channel *channel)
 {
-    LOG_E(TAG, "_channelActive");
+    LOG_D(TAG, "_channelActive");
 
 #ifdef MDNS_DISCOVERY
     do
@@ -348,8 +348,8 @@ static bool _channelRead(ChannelHandler *thiz, Channel *channel, ChannelDataType
 {
     DnsMessage *message = (DnsMessage *)data;
 
-    LOG_D(TAG, "_channelRead: %d type: %d, len: %d from: %s: %d", channel->fd, type, len,
-          channel->remote.socket.ip, channel->remote.socket.port);
+//    LOG_D(TAG, "_channelRead: %d type: %d, len: %d from: %s: %d", channel->fd, type, len,
+//          channel->remote.socket.ip, channel->remote.socket.port);
 
     if (STR_EQUAL(channel->remote.socket.ip, "127.0.0.1"))
     {
@@ -371,7 +371,7 @@ static bool _channelRead(ChannelHandler *thiz, Channel *channel, ChannelDataType
 TINY_LOR
 static void _channelEvent(ChannelHandler *thiz, Channel *channel, ChannelTimer *timer)
 {
-    LOG_D(TAG, "_channelEvent");
+//    LOG_D(TAG, "_channelEvent");
     _handleQuery(thiz, channel, NULL);
 }
 
