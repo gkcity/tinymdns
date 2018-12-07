@@ -26,7 +26,7 @@ TINY_BEGIN_DECLS
 
 MDNS_API
 TINY_LOR
-ChannelHandler * DnsServerHandler(void);
+ChannelHandler * DnsServerHandler(uint32_t ip);
 
 
 TINY_END_DECLS

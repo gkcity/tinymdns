@@ -22,7 +22,7 @@
 #define TAG "DnsServerHandler"
 
 TINY_LOR
-static TinyRet DnsServerHandler_Construct(ChannelHandler *thiz);
+static TinyRet DnsServerHandler_Construct(ChannelHandler *thiz, uint32_t ip);
 
 TINY_LOR
 static TinyRet DnsServerHandler_Dispose(ChannelHandler *thiz);
@@ -46,7 +46,7 @@ TINY_LOR
 static TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx);
 
 TINY_LOR
-ChannelHandler * DnsServerHandler(void)
+ChannelHandler * DnsServerHandler(uint32_t ip)
 {
     ChannelHandler *thiz = NULL;
 
@@ -58,7 +58,7 @@ ChannelHandler * DnsServerHandler(void)
             break;
         }
 
-        if (RET_FAILED(DnsServerHandler_Construct(thiz)))
+        if (RET_FAILED(DnsServerHandler_Construct(thiz, ip)))
         {
             DnsServerHandler_Delete(thiz);
             thiz = NULL;
@@ -79,7 +79,7 @@ static void DnsServerHandler_Delete(ChannelHandler *thiz)
 }
 
 TINY_LOR
-static TinyRet DnsServerHandler_Construct(ChannelHandler *thiz)
+static TinyRet DnsServerHandler_Construct(ChannelHandler *thiz, uint32_t ip)
 {
     LOG_D(TAG, "DnsServerHandler_Construct");
 
@@ -97,7 +97,7 @@ static TinyRet DnsServerHandler_Construct(ChannelHandler *thiz)
     thiz->channelWrite = NULL;
     thiz->channelEvent = _channelEvent;
     thiz->getTimeout = _channelGetNextTimeout;
-    thiz->context = DnsServerHandlerContext_New();
+    thiz->context = DnsServerHandlerContext_New(ip);
     if (thiz->context == NULL)
     {
         return TINY_RET_E_NEW;

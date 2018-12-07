@@ -28,10 +28,10 @@ typedef struct _DnsServerHandlerContext
 } DnsServerHandlerContext;
 
 TINY_LOR
-DnsServerHandlerContext * DnsServerHandlerContext_New(void);
+DnsServerHandlerContext * DnsServerHandlerContext_New(uint32_t ip);
 
 TINY_LOR
-TinyRet DnsServerHandlerContext_Construct(DnsServerHandlerContext *thiz);
+TinyRet DnsServerHandlerContext_Construct(DnsServerHandlerContext *thiz, uint32_t ip);
 
 TINY_LOR
 void DnsServerHandlerContext_Dispose(DnsServerHandlerContext *thiz);

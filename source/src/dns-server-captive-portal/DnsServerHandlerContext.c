@@ -22,7 +22,7 @@
 #define TAG             "DnsServerHandlerContext"
 
 TINY_LOR
-DnsServerHandlerContext * DnsServerHandlerContext_New(void)
+DnsServerHandlerContext * DnsServerHandlerContext_New(uint32_t ip)
 {
     DnsServerHandlerContext *thiz = NULL;
 
@@ -35,7 +35,7 @@ DnsServerHandlerContext * DnsServerHandlerContext_New(void)
             break;
         }
 
-        if (RET_FAILED(DnsServerHandlerContext_Construct(thiz)))
+        if (RET_FAILED(DnsServerHandlerContext_Construct(thiz, ip)))
         {
             LOG_E(TAG, "DnsServerHandlerContext_Construct failed!\n");
             DnsServerHandlerContext_Delete(thiz);
@@ -48,9 +48,11 @@ DnsServerHandlerContext * DnsServerHandlerContext_New(void)
 }
 
 TINY_LOR
-TinyRet DnsServerHandlerContext_Construct(DnsServerHandlerContext *thiz)
+TinyRet DnsServerHandlerContext_Construct(DnsServerHandlerContext *thiz, uint32_t ip)
 {
     memset(thiz, 0, sizeof(DnsServerHandlerContext));
+    thiz->ip = ip;
+
     return TINY_RET_OK;
 }
 
