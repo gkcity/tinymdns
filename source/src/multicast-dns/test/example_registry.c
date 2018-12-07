@@ -14,9 +14,9 @@
 #include <channel/multicast/MulticastChannel.h>
 #include <channel/SocketChannel.h>
 #include <tiny_log.h>
-#include "codec/DnsMessageCodec.h"
-#include "MdnsHandler.h"
-#include "MdnsConstant.h"
+#include <codec/DnsMessageCodec.h>
+#include "../MdnsHandler.h"
+#include "../MdnsConstant.h"
 
 #define TAG             "example_registry"
 

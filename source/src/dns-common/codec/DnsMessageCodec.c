@@ -16,7 +16,7 @@
 #include <tiny_log.h>
 #include <tiny_malloc.h>
 #include "DnsMessageCodec.h"
-#include "message/DnsMessage.h"
+#include "../message/DnsMessage.h"
 
 #define TAG     "DnsMessageCodec"
 

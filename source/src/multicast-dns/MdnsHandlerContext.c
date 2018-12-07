@@ -125,6 +125,8 @@ TinyRet MdnsHandlerContext_Construct(MdnsHandlerContext *thiz)
 TINY_LOR
 void MdnsHandlerContext_Dispose(MdnsHandlerContext *thiz)
 {
+    RETURN_IF_FAIL(thiz);
+
     TinyList_Dispose(&thiz->dnssdRecords);
     TinyList_Dispose(&thiz->aRecords);
     TinyList_Dispose(&thiz->ptrRecords);
@@ -134,13 +136,13 @@ void MdnsHandlerContext_Dispose(MdnsHandlerContext *thiz)
 #ifdef MDNS_DISCOVERY
     TinyList_Dispose(&thiz->observers);
 #endif
-
-    RETURN_IF_FAIL(thiz);
 }
 
 TINY_LOR
 void MdnsHandlerContext_Delete(MdnsHandlerContext *thiz)
 {
+    RETURN_IF_FAIL(thiz);
+
     MdnsHandlerContext_Dispose(thiz);
     tiny_free(thiz);
 }

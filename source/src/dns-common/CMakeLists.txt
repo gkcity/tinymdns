@@ -1,18 +1,12 @@
 #-----------------------------------------------------------------------------
 #
-# TinyMdns
+# dns-common
 #
 #-----------------------------------------------------------------------------
 
 
-SET(Mdns_Header
-        mdns_api.h
-        MdnsConstant.h
-        ServiceInfo.h
-        MdnsHandler.h
-        MdnsHandlerContext.h
-        ServiceObserver.h
-        ServiceListener.h
+SET(Common_Header
+        api/mdns_api.h
         codec/DnsMessageCodec.h
         message/DnsTypedef.h
         message/DnsName.h
@@ -21,11 +15,7 @@ SET(Mdns_Header
         message/DnsMessage.h
         )
 
-SET(Mdns_Source
-        ServiceInfo.c
-        MdnsHandler.c
-        MdnsHandlerContext.c
-        ServiceObserver.c
+SET(Common_Source
         codec/DnsMessageCodec.c
         message/DnsTypedef.c
         message/DnsName.c
@@ -38,18 +28,13 @@ SET(Mdns_Source
 # source
 #----------------------------------------------------------------------------
 SET(SRC
-        ${Mdns_Header}
-        ${Mdns_Source}
+        ${Common_Header}
+        ${Common_Source}
         )
 
 #----------------------------------------------------------------------------
 # static library
 #----------------------------------------------------------------------------
-ADD_LIBRARY(mdns_static STATIC ${SRC})
-SET_TARGET_PROPERTIES(mdns_static PROPERTIES OUTPUT_NAME "mdns_static")
-SET_TARGET_PROPERTIES(mdns_static PROPERTIES LINKER_LANGUAGE C)
-
-#----------------------------------------------------------------------------
-# test
-#----------------------------------------------------------------------------
-ADD_SUBDIRECTORY(test)
+ADD_LIBRARY(dns_common_static STATIC ${SRC})
+SET_TARGET_PROPERTIES(dns_common_static PROPERTIES OUTPUT_NAME "dns_common_static")
+SET_TARGET_PROPERTIES(dns_common_static PROPERTIES LINKER_LANGUAGE C)

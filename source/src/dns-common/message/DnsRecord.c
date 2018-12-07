@@ -71,6 +71,9 @@ void DnsRecord_Dispose(DnsRecord *thiz)
 
         case TYPE_ANY:
             break;
+
+        default:
+            break;
     }
 }
 
@@ -160,6 +163,9 @@ TinyRet DnsRecord_Copy(DnsRecord *dst, const DnsRecord *src)
 
             case TYPE_ANY:
                 break;
+
+            default:
+                break;
         }
     } while (0);
 
@@ -246,7 +252,6 @@ DnsRecord * DnsRecord_NewA(DnsName *name, DnsRecordClass clazz, uint32_t ttl, ui
         thiz->type = TYPE_A;
         thiz->clazz = clazz;
         thiz->ttl = ttl;
-        thiz->clazz = CLASS_IN;
         tiny_snprintf(thiz->data.a.ip, TINY_IP_LEN, "%d.%d.%d.%d", a[0], a[1], a[2], a[3]);
         thiz->data.a.address = ip;
     } while (0);
@@ -376,6 +381,102 @@ DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
 
     return thiz;
 }
+
+//TINY_LOR
+//DnsRecord * DnsRecord_NewNS(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const char *ns)
+//{
+//    DnsRecord *thiz = NULL;
+//
+//    do
+//    {
+//        thiz = DnsRecord_New();
+//        if (thiz == NULL)
+//        {
+//            LOG_E(TAG, "DnsRecord_New FAILED");
+//            break;
+//        }
+//
+//        if (RET_FAILED(DnsName_Copy(&thiz->name, name)))
+//        {
+//            LOG_E(TAG, "DnsName_SetString FAILED");
+//            DnsRecord_Delete(thiz);
+//            thiz = NULL;
+//            break;
+//        }
+//
+//        thiz->type = TYPE_NS;
+//        thiz->clazz = clazz;
+//        thiz->ttl = ttl;
+//
+//        if (RET_FAILED(DnsName_Construct(&thiz->data.ns)))
+//        {
+//            LOG_E(TAG, "DnsName_Construct FAILED");
+//            DnsRecord_Delete(thiz);
+//            thiz = NULL;
+//            break;
+//        }
+//
+//        if (RET_FAILED(DnsName_Copy(&thiz->data.ns, host)))
+//        {
+//            LOG_E(TAG, "DnsName_SetString FAILED");
+//            DnsRecord_Delete(thiz);
+//            thiz = NULL;
+//            break;
+//        }
+//    } while (0);
+//
+//    return thiz;
+//}
+//
+//TINY_LOR
+//DnsRecord * DnsRecord_NewURI(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const char *uri)
+//{
+//    DnsRecord *thiz = NULL;
+//
+//    do
+//    {
+//        thiz = DnsRecord_New();
+//        if (thiz == NULL)
+//        {
+//            LOG_E(TAG, "DnsRecord_New FAILED");
+//            break;
+//        }
+//
+//        if (RET_FAILED(DnsName_Copy(&thiz->name, name)))
+//        {
+//            LOG_E(TAG, "DnsName_SetString FAILED");
+//            DnsRecord_Delete(thiz);
+//            thiz = NULL;
+//            break;
+//        }
+//
+//        thiz->type = TYPE_URI;
+//        thiz->clazz = clazz;
+//        thiz->ttl = ttl;
+//
+//        if (RET_FAILED(DnsName_Construct(&thiz->data.srv.name)))
+//        {
+//            LOG_E(TAG, "DnsName_Construct FAILED");
+//            DnsRecord_Delete(thiz);
+//            thiz = NULL;
+//            break;
+//        }
+//
+//        if (RET_FAILED(DnsName_Copy(&thiz->data.srv.name, host)))
+//        {
+//            LOG_E(TAG, "DnsName_SetString FAILED");
+//            DnsRecord_Delete(thiz);
+//            thiz = NULL;
+//            break;
+//        }
+//
+//        thiz->data.srv.priority = 10;
+//        thiz->data.srv.weight = 1;
+//        thiz->data.srv.port = 0;
+//    } while (0);
+//
+//    return thiz;
+//}
 
 TINY_LOR
 int DnsRecord_Parse(DnsRecord *thiz, const uint8_t *buf, uint32_t len, uint32_t offset)
@@ -515,6 +616,13 @@ int DnsRecord_Parse(DnsRecord *thiz, const uint8_t *buf, uint32_t len, uint32_t 
             case TYPE_ANY:
                 // TODO ?
                 break;
+
+            case TYPE_URI:
+                // TODO ?
+                break;
+
+            default:
+                break;
         }
 
         parsed += dataLength;
@@ -642,6 +750,9 @@ uint32_t DnsRecord_ToBytes(DnsRecord *thiz, uint8_t *buf, uint32_t length, uint3
         }
 
         case TYPE_ANY:
+            break;
+
+        default:
             break;
     }
 

@@ -54,6 +54,7 @@ typedef enum _DnsRecordType
     TYPE_AAAA       = 28,   // IP6 Address
     TYPE_SRV        = 33,   // https://tools.ietf.org/html/rfc2782
     TYPE_ANY        = 255,  // Request for all records [RFC1035]
+    TYPE_URI        = 256,  //
 } DnsRecordType;
 
 /**
@@ -91,6 +92,7 @@ typedef enum _DnsRecordClass
     CLASS_FLUSH_IN      = 0x8001,   // flush bit and internet
     CLASS_NONE          = 254,      // Used in DNS UPDATE [RFC 2136]
     CLASS_ANY           = 255,      // any class
+    CLASS_URI           = 256,
 } DnsRecordClass;
 
 

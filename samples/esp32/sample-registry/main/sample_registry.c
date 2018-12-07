@@ -15,8 +15,8 @@
 #include <channel/SocketChannel.h>
 #include <tiny_log.h>
 #include <codec/DnsMessageCodec.h>
-#include <MdnsHandler.h>
-#include <MdnsConstant.h>
+#include "../../../../source/src/multicast-dns/MdnsHandler.h"
+#include "../../../../source/src/multicast-dns/MdnsConstant.h"
 
 static void BonjourInitializer(Channel *channel, void *ctx)
 {

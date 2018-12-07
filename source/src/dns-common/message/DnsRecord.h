@@ -17,7 +17,7 @@
 
 #include <tiny_base.h>
 #include <TinyList.h>
-#include <ServiceInfo.h>
+#include "../../multicast-dns/ServiceInfo.h"
 #include "DnsName.h"
 #include "DnsTypedef.h"
 
@@ -142,6 +142,12 @@ DnsRecord * DnsRecord_NewSRV(DnsName *name, DnsRecordClass clazz, uint32_t ttl, 
 
 TINY_LOR
 DnsRecord * DnsRecord_NewTXT(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const TinyMap *txt);
+
+//TINY_LOR
+//DnsRecord * DnsRecord_NewNS(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const char *ns);
+//
+//TINY_LOR
+//DnsRecord * DnsRecord_NewURI(DnsName *name, DnsRecordClass clazz, uint32_t ttl, const char *uri);
 
 TINY_LOR
 int DnsRecord_Parse(DnsRecord *thiz, const uint8_t *buf, uint32_t len, uint32_t offset);

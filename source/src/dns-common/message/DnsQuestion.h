@@ -73,7 +73,6 @@ typedef struct _DnsQuestion
     bool                unicast;
 } DnsQuestion;
 
-
 TINY_LOR
 DnsQuestion * DnsQuestion_New(void);
 

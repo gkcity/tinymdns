@@ -16,7 +16,7 @@
 #define __DNS_MESSAGE_CODEC_H__
 
 #include <channel/ChannelHandler.h>
-#include "mdns_api.h"
+#include "../api/mdns_api.h"
 
 TINY_BEGIN_DECLS
 

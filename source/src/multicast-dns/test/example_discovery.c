@@ -15,8 +15,8 @@
 #include <channel/multicast/MulticastChannel.h>
 #include <channel/SocketChannel.h>
 #include <codec/DnsMessageCodec.h>
-#include <MdnsConstant.h>
-#include <MdnsHandler.h>
+#include "../MdnsConstant.h"
+#include "../MdnsHandler.h"
 
 #define TAG             "example_discovery"
 

@@ -14,7 +14,7 @@
 #define __SERVICE_INFO_H__
 
 #include <TinyMap.h>
-#include "mdns_api.h"
+#include <api/mdns_api.h>
 
 TINY_BEGIN_DECLS
 

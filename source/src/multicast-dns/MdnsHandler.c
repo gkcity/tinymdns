@@ -17,8 +17,8 @@
 #include <channel/ChannelTimer.h>
 #include <channel/SocketChannel.h>
 #include <channel/multicast/MulticastChannel.h>
-#include "message/DnsMessage.h"
-#include "message/DnsRecord.h"
+#include <message/DnsMessage.h>
+#include <message/DnsRecord.h>
 #include "MdnsHandler.h"
 #include "MdnsHandlerContext.h"
 #include "ServiceObserver.h"
@@ -47,7 +47,7 @@ TINY_LOR
 static void _channelEvent(ChannelHandler *thiz, Channel *channel, ChannelTimer *timer);
 
 TINY_LOR
-TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx);
+static TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx);
 
 TINY_LOR
 ChannelHandler * MdnsHandler(void)
@@ -376,7 +376,7 @@ static void _channelEvent(ChannelHandler *thiz, Channel *channel, ChannelTimer *
 }
 
 TINY_LOR
-TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx)
+static TinyRet _channelGetNextTimeout(Channel *channel, ChannelTimer *timer, void *ctx)
 {
     ChannelHandler *thiz = (ChannelHandler *)ctx;
     MdnsHandlerContext * context = (MdnsHandlerContext *)(thiz->context);

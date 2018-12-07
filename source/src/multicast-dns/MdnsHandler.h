@@ -12,12 +12,12 @@
  *      set expandtab
  */
 
-#ifndef __MDNS_REGISTRY_H__
-#define __MDNS_REGISTRY_H__
+#ifndef __MDNS_HANDLER_H__
+#define __MDNS_HANDLER_H__
 
 #include <channel/ChannelHandler.h>
 #include "ServiceInfo.h"
-#include "mdns_api.h"
+#include <api/mdns_api.h>
 
 #ifdef MDNS_DISCOVERY
 #include "ServiceListener.h"
@@ -48,4 +48,4 @@ TinyRet MdnsHandler_AddListener(ChannelHandler *thiz, const char *type, ServiceL
 
 TINY_END_DECLS
 
-#endif /* __MDNS_REGISTRY_H__ */
+#endif /* __MDNS_HANDLER_H__ */
