@@ -8,6 +8,7 @@
 SET(Common_Header
         api/mdns_api.h
         codec/DnsMessageCodec.h
+        message/ServiceInfo.h
         message/DnsTypedef.h
         message/DnsName.h
         message/DnsQuestion.h
@@ -17,6 +18,7 @@ SET(Common_Header
 
 SET(Common_Source
         codec/DnsMessageCodec.c
+        message/ServiceInfo.c
         message/DnsTypedef.c
         message/DnsName.c
         message/DnsQuestion.c

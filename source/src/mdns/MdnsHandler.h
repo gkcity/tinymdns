@@ -16,7 +16,7 @@
 #define __MDNS_HANDLER_H__
 
 #include <channel/ChannelHandler.h>
-#include "ServiceInfo.h"
+#include "message/ServiceInfo.h"
 #include <api/mdns_api.h>
 
 #ifdef MDNS_DISCOVERY

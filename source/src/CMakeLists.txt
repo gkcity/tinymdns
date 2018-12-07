@@ -4,4 +4,5 @@
 #
 #-------------------------------------------------------------------------------------
 ADD_SUBDIRECTORY(dns-common)
-ADD_SUBDIRECTORY(multicast-dns)
+ADD_SUBDIRECTORY(dns-server)
+ADD_SUBDIRECTORY(mdns)

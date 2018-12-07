@@ -17,7 +17,7 @@
 
 #include <tiny_base.h>
 #include <TinyList.h>
-#include "../../multicast-dns/ServiceInfo.h"
+#include "ServiceInfo.h"
 #include "DnsName.h"
 #include "DnsTypedef.h"
 

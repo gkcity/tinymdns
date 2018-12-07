@@ -18,7 +18,7 @@
 #include <tiny_base.h>
 #include <message/DnsTypedef.h>
 #include <message/DnsMessage.h>
-#include "ServiceInfo.h"
+#include "message/ServiceInfo.h"
 
 TINY_BEGIN_DECLS
 

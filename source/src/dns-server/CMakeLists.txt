@@ -1,6 +1,6 @@
 #-----------------------------------------------------------------------------
 #
-# dns-server-captive-portal
+# dns-server
 #
 #-----------------------------------------------------------------------------
 
@@ -27,6 +27,6 @@ SET(SRC
 #----------------------------------------------------------------------------
 # static library
 #----------------------------------------------------------------------------
-ADD_LIBRARY(dns_static STATIC ${SRC})
-SET_TARGET_PROPERTIES(dns_static PROPERTIES OUTPUT_NAME "dns_static")
-SET_TARGET_PROPERTIES(dns_static PROPERTIES LINKER_LANGUAGE C)
+ADD_LIBRARY(dns-server_static STATIC ${SRC})
+SET_TARGET_PROPERTIES(dns-server_static PROPERTIES OUTPUT_NAME "dns-server_static")
+SET_TARGET_PROPERTIES(dns-server_static PROPERTIES LINKER_LANGUAGE C)

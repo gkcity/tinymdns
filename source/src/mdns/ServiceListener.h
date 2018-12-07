@@ -16,7 +16,7 @@
 #define __SERVICE_LISTENER_H__
 
 #include <tiny_base.h>
-#include "ServiceInfo.h"
+#include "message/ServiceInfo.h"
 
 TINY_BEGIN_DECLS
 

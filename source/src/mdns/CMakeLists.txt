@@ -7,7 +7,6 @@
 
 SET(Mdns_Header
         MdnsConstant.h
-        ServiceInfo.h
         MdnsHandler.h
         MdnsHandlerContext.h
         ServiceObserver.h
@@ -15,7 +14,6 @@ SET(Mdns_Header
         )
 
 SET(Mdns_Source
-        ServiceInfo.c
         MdnsHandler.c
         MdnsHandlerContext.c
         ServiceObserver.c
