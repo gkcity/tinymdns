@@ -15,7 +15,7 @@
 #include <tiny_malloc.h>
 #include <tiny_log.h>
 #include <message/DnsMessage.h>
-#include <channel/multicast/MulticastChannel.h>
+#include <channel/unicast/UnicastChannel.h>
 #include "DnsServerHandler.h"
 #include "DnsServerHandlerContext.h"
 
@@ -129,32 +129,8 @@ static void _handleQuery(ChannelHandler *thiz, Channel *channel, DnsMessage *que
         uint32_t length = DnsMessage_ToBytes(response, buf, 1024, 0);
         if (length > 0)
         {
-            if (query != NULL)
-            {
-                if (query->unicast)
-                {
-                    LOG_D(TAG, "MulticastChannel_WriteTo: %x:%d", channel->remote.socket.address, channel->remote.socket.port);
-
-                    if (RET_FAILED(MulticastChannel_WriteTo(channel, buf, length, channel->remote.socket.address, channel->remote.socket.port)))
-                    {
-                        LOG_E(TAG, "MulticastChannel_WriteTo FAILED!");
-                    }
-                }
-                else
-                {
-                    if (RET_FAILED(MulticastChannel_Write(channel, buf, length)))
-                    {
-                        LOG_E(TAG, "MulticastChannel_Write FAILED!");
-                    }
-                }
-            }
-            else
-            {
-                if (RET_FAILED(MulticastChannel_Write(channel, buf, length)))
-                {
-                    LOG_E(TAG, "MulticastChannel_Write FAILED!");
-                }
-            }
+            LOG_I(TAG, "UnicastChannel_WriteTo: %x:%d", channel->remote.socket.address, channel->remote.socket.port);
+            UnicastChannel_WriteTo(channel, buf, length, channel->remote.socket.address, channel->remote.socket.port);
         }
 
         DnsMessage_Delete(response);
