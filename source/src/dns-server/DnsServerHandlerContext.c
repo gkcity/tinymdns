@@ -71,6 +71,8 @@ void DnsServerHandlerContext_Delete(DnsServerHandlerContext *thiz)
 
 static void replyWithIP(DnsServerHandlerContext *thiz, DnsMessage *response, DnsQuestion *question)
 {
+    LOG_I(TAG, "replyWithIP: %s", question->name.bytes);
+
     do
     {
         DnsRecord *record = DnsRecord_NewA(&question->name, CLASS_IN, 0, thiz->ip);
@@ -90,6 +92,8 @@ static void replyWithIP(DnsServerHandlerContext *thiz, DnsMessage *response, Dns
 
 static void replyWithNonExistentDomain(DnsServerHandlerContext *thiz, DnsMessage *response)
 {
+    LOG_I(TAG, "replyWithNonExistentDomain");
+
     response->header.FLAG.bits.RCODE = RCODE_NAME_ERROR;
 }
 

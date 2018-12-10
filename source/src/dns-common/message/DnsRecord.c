@@ -253,6 +253,7 @@ DnsRecord * DnsRecord_NewA(DnsName *name, DnsRecordClass clazz, uint32_t ttl, ui
         thiz->clazz = clazz;
         thiz->ttl = ttl;
         tiny_snprintf(thiz->data.a.ip, TINY_IP_LEN, "%d.%d.%d.%d", a[0], a[1], a[2], a[3]);
+        LOG_I(TAG, "DnsRecord_NewA: %s", thiz->data.a.ip);
         thiz->data.a.address = ip;
     } while (0);
 
