@@ -71,11 +71,11 @@ void DnsServerHandlerContext_Delete(DnsServerHandlerContext *thiz)
 
 static void replyWithIP(DnsServerHandlerContext *thiz, DnsMessage *response, DnsQuestion *question)
 {
-    LOG_I(TAG, "replyWithIP: %s", question->name.bytes);
+    LOG_I(TAG, "replyWithIP: %s", question->name.string);
 
     do
     {
-        DnsRecord *record = DnsRecord_NewA(&question->name, CLASS_IN, 0, thiz->ip);
+        DnsRecord *record = DnsRecord_NewA(&question->name, CLASS_IN, 60, thiz->ip);
         if (record == NULL)
         {
             break;
