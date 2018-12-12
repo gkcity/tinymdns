@@ -94,7 +94,7 @@ static void replyWithNonExistentDomain(DnsServerHandlerContext *thiz, DnsMessage
 {
     LOG_I(TAG, "replyWithNonExistentDomain");
 
-    response->header.FLAG.bits.RCODE = RCODE_NAME_ERROR;
+    response->header.FLAG.bits.RCODE = RCODE_NO_ERROR;
 }
 
 #if 0
