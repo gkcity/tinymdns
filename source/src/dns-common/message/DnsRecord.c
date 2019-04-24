@@ -250,7 +250,7 @@ DnsRecord * DnsRecord_NewA(DnsName *name, DnsRecordClass clazz, uint32_t ttl, ui
         thiz->type = TYPE_A;
         thiz->clazz = clazz;
         thiz->ttl = ttl;
-        thiz->data.a.address = htonl(ip);
+        thiz->data.a.address = ip;
     } while (0);
 
     return thiz;
